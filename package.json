@@ -1,0 +1,38 @@
+{
+  "name": "webpack-express-ts",
+  "version": "1.0.0",
+  "description": "Base for Express project. In typescript and Webpack as bundler.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.ts",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start:dev": "cross-env NODE_ENV=development webpack",
+    "run:dev": "cross-env NODE_ENV=development nodemon build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raiyol/webpack-express-ts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raiyol/webpack-express-ts/issues"
+  },
+  "homepage": "https://github.com/Raiyol/webpack-express-ts#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.15",
+    "@types/node": "^18.11.18",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.20",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack-cli": "^5.0.1",
+    "webpack-node-externals": "^3.0.0",
+    "webpack-shell-plugin-next": "^2.3.1"
+  }
+}

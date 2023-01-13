@@ -1,0 +1,12 @@
+
+# production
+/build
+
+migration.js
+
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
