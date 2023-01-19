@@ -9,12 +9,23 @@ const sequelize = new Sequelize('user', 'root', 'password', {
 class User extends Model { }
 
 User.init({
-  firstName: DataTypes.STRING,
-  lastName: DataTypes.STRING,
+
+  pseudo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   email: {
     type: DataTypes.STRING,
     unique: true,
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 }, { sequelize, modelName: 'User' });
 
 sequelize.sync();
