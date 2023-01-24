@@ -1,21 +1,32 @@
 import multer from 'multer';
 
-const MIME_TYPES: { [key: string]: string } = {
+/*const MIME_TYPES: { [key: string]: string } = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png'
+  };*/
+ const imageFiltre = (req: any, file:any, cb:any) => {
+    if(file.mimetype=== "image/jpg" || file.mimetype=== "image/jpeg"  || file.mimetype=== "image/png"){
+      cb(null, true)
+    } else{
+      cb(new Error("Image uplaod is not of tupe jpg/jpeg/png"), false)
+    }
   };
   
   
   const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, 'images');
+      callback(null, './src/images');
     },
     filename: (req, file, callback) => {
       const name = file.originalname.split(' ').join('_');
-      const extension = MIME_TYPES[file.mimetype];
-      callback(null, name + Date.now() + '.' + extension);
+      //const extension = MIME_TYPES[file.mimetype];
+      callback(null,  Date.now() + name );
     },
   });
   
-  module.exports = multer({ storage: storage }).single('image');
+  module.exports = multer({ 
+    storage: storage,
+    fileFilter : imageFiltre,
+  }).single('image');
+
