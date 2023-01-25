@@ -1,10 +1,5 @@
 import multer from 'multer';
 
-/*const MIME_TYPES: { [key: string]: string } = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
-  };*/
  const imageFiltre = (req: any, file:any, cb:any) => {
     if(file.mimetype=== "image/jpg" || file.mimetype=== "image/jpeg"  || file.mimetype=== "image/png"){
       cb(null, true)
