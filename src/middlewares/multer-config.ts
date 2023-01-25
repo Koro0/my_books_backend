@@ -22,5 +22,6 @@ import multer from 'multer';
   module.exports = multer({ 
     storage: storage,
     fileFilter : imageFiltre,
-  }).single('image');
+  }).single('image'); //un fichier image
+  //array('image) => pour plusieurs images
 
