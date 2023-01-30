@@ -1,7 +1,6 @@
 import {Novel} from '../models/Novel.model';
 import { Request, Response } from 'express';
 import fs = require('fs');
-import path = require('path');
 
 export const createNovel = async (req:Request, res:Response) => {
     const reqObject = req.body;
@@ -14,7 +13,7 @@ export const createNovel = async (req:Request, res:Response) => {
               }`,
             like:0,
             likesTab:[],
-            Chapiter: []
+            chapters: []
         });
         return res
         .status(200).json({message: "novel created successfully", data: novel});
@@ -24,7 +23,7 @@ export const createNovel = async (req:Request, res:Response) => {
             image: null,
             like:0,
             likesTab:[],
-            Chapiter: []
+            chapters: []
         });
         return res
         .status(200).json({message: "novel created successfully", data: novel});
