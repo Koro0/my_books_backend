@@ -18,7 +18,7 @@ const router = Router();
 router.post('/', multer, createNovel);
 router.get('/', getAllNovel);
 router.get('/:id', getOneNovel);
-router.put(':id', multer, updateNovel);
-router.delete(':id', deleteNovel);
+router.put('/:id', multer, updateNovel);
+router.delete('/:id', deleteNovel);
 
 export default router;
