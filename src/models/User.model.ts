@@ -1,8 +1,8 @@
 import { Table, Column, Model, DataType } from "sequelize-typescript";
 
 @Table({
-  tableName: 'user'
-})
+  tableName: 'User'
+}) 
 export class User extends Model {
   @Column({ 
     type: DataType.INTEGER.UNSIGNED,
@@ -20,7 +20,7 @@ export class User extends Model {
     allowNull:false,
     validate: {isEmail:true}
   })
-  email?: string;
+  email!: string;
 
   @Column({
     type: DataType.STRING,
