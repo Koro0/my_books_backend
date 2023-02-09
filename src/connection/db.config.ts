@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { Novel } from "../models/Novel.model";
 import { User } from "../models/User.model";
 import { Product } from "../models/Product.model";
+import { Chapter } from "../models/chapter.model";
 dotenv.config();
 
 // Créer une connexion à la base de données
@@ -10,7 +11,7 @@ const connection = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!,  pr
   host: process.env.DB_HOST,
   dialect: "mysql"
 });
-connection.addModels([Novel, User, Product]);
+connection.addModels([Novel, User, Product, Chapter]); 
 
 
 export default connection;

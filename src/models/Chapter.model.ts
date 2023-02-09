@@ -1,10 +1,10 @@
-import { DataTypes } from "sequelize";
 import {
     Table,
     Column,
     Model,
     DataType,
-    HasOne,
+    HasMany,
+    ForeignKey,
   } from "sequelize-typescript";
 import { Novel } from "./Novel.model";
 
@@ -17,22 +17,22 @@ import { Novel } from "./Novel.model";
       autoIncrement: true,
       primaryKey: true
     })
-    id!: number;
+    id?: any;
     
-    @Column({type:DataType.NUMBER, allowNull: false})
-    ChapterNumber! : number;
+    @Column({type:DataType.NUMBER})
+    ChapterNumber? : number;
 
-    @Column({type:DataType.STRING, allowNull: false})
+    @Column({type:DataType.STRING})
     title!: string;
 
-    @Column({type:DataType.STRING, allowNull: false})
+    @Column({type:DataType.STRING})
     content!: string;
 
-    @Column({type:DataTypes.INTEGER, references:{model:Novel, key:'id',}, onDelete:'CASCADE', onUpdate: 'CASCADE',})
+    @ForeignKey(()=> Novel)
+    @Column
     novelId!: number;
 
-    @HasOne(()=> Novel, {
-      foreignKey: 'novelId',
-    })
+    @HasMany(()=> Novel)
     novel!: Novel;
+
   }
