@@ -4,7 +4,7 @@ import {
     Column,
     Model,
     DataType,
-    BelongsTo,
+    HasOne,
   } from "sequelize-typescript";
 import { Novel } from "./Novel.model";
 
@@ -31,6 +31,8 @@ import { Novel } from "./Novel.model";
     @Column({type:DataTypes.INTEGER, references:{model:Novel, key:'id',}, onDelete:'CASCADE', onUpdate: 'CASCADE',})
     novelId!: number;
 
-    @BelongsTo(()=> Novel)
+    @HasOne(()=> Novel, {
+      foreignKey: 'novelId',
+    })
     novel!: Novel;
   }
