@@ -22,14 +22,14 @@ const router = Router();
  */
 router.post('/', multer, createNovel);
 router.get('/', getAllNovel);
-router.get('/:id', getOneNovel);
-router.put('/:id', multer, updateNovel);
-router.delete('/:id', deleteNovel);
+router.get('/:novelId', getOneNovel);
+router.put('/:novelId', multer, updateNovel);
+router.delete('/:novelId', deleteNovel);
 
 /**
- * Route dor CRUD Novel => Chapter
+ * Route for CRUD Novel => Chapter
  */
-router.post('/chapter/:id', createChapter);
-router.get('/chapter/:id', getChapter);
+router.post('/:novelId/chapter/',multer, createChapter);
+router.get('/:novelId/chapter/:chapterId', getChapter);
 
 export default router;
