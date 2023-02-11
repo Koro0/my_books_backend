@@ -15,11 +15,13 @@ import { Novel } from "./Novel.model";
     @Column({ 
       type: DataType.INTEGER.UNSIGNED,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
+
+      allowNull:false
     })
-    id?: any;
+    chapterId!: number;
     
-    @Column({type:DataType.NUMBER})
+    @Column({type:DataType.INTEGER})
     ChapterNumber? : number;
 
     @Column({type:DataType.STRING})
@@ -28,8 +30,8 @@ import { Novel } from "./Novel.model";
     @Column({type:DataType.STRING})
     content!: string;
 
-    @ForeignKey(()=> Novel)
-    @Column
+    @ForeignKey(()=> Novel) 
+    @Column({type:DataType.INTEGER})
     novelId!: number;
 
     @HasMany(()=> Novel)
