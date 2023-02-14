@@ -3,7 +3,7 @@ import {
     Column,
     Model,
     DataType,
-    HasMany,
+    BelongsTo,
     ForeignKey,
   } from "sequelize-typescript";
 import { Novel } from "./Novel.model";
@@ -16,13 +16,12 @@ import { Novel } from "./Novel.model";
       type: DataType.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
-
-      allowNull:false
+      allowNull:false 
     })
     chapterId!: number;
     
     @Column({type:DataType.INTEGER})
-    ChapterNumber? : number;
+    chapterNumber? : number;
 
     @Column({type:DataType.STRING})
     title!: string;
@@ -34,7 +33,7 @@ import { Novel } from "./Novel.model";
     @Column({type:DataType.INTEGER})
     novelId!: number;
 
-    @HasMany(()=> Novel)
+    @BelongsTo(()=> Novel)
     novel!: Novel;
 
   }

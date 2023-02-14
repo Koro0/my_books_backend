@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo} from "sequelize-typescript";
+import { Table, Column, Model, DataType, ForeignKey, HasMany} from "sequelize-typescript";
 import { Chapter } from "./chapter.model";
+import { LikesTab} from "./likesTabs.model";
 
 @Table({
   tableName: 'Novel'
@@ -16,8 +17,8 @@ export class Novel extends Model {
   @Column({type: DataType.STRING, allowNull:true,})
   image?: string;
 
-  @Column({type: DataType.STRING}) 
-  title?: string;
+  @Column({type: DataType.STRING, allowNull:false}) 
+  title!: string;
 
   @Column({type: DataType.STRING})
   type?: string;
@@ -29,16 +30,20 @@ export class Novel extends Model {
   description?: string; 
 
   @Column({type: DataType.INTEGER})
-  like: number = 0;
+  likesCount: number = 0;
 
-  @Column({ type: DataType.JSON })
-  likesTab?: string[];
+  @ForeignKey(()=> LikesTab)
+  @Column({type: DataType.INTEGER.UNSIGNED, allowNull:false})
+  likesId!: number;
+
+  @HasMany(()=> LikesTab)
+  likesTab!: LikesTab[];
   
   @ForeignKey(()=> Chapter)
-  @Column({type: DataType.INTEGER})
+  @Column({type: DataType.INTEGER.UNSIGNED, allowNull:false})
   chapterId!: number; 
   
-  @BelongsTo(()=> Chapter)
+  @HasMany(()=> Chapter)
   chapters!: Chapter[];
 
 }
