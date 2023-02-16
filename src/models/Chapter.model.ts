@@ -30,7 +30,7 @@ import { Novel } from "./Novel.model";
     content!: string;
 
     @ForeignKey(()=> Novel) 
-    @Column({type:DataType.INTEGER})
+    @Column({type:DataType.INTEGER.UNSIGNED})
     novelId!: number;
 
     @BelongsTo(()=> Novel)

@@ -10,7 +10,7 @@ import { DataTypes } from "sequelize";
 import { Novel } from "./Novel.model";
 
 @Table({
-    tableName: 'LikesTab'
+    tableName: 'LikesTab' 
 })
 export class LikesTab extends Model {
     @Column({
@@ -24,10 +24,10 @@ export class LikesTab extends Model {
     @Column({
         type: DataTypes.JSON
     })
-    likedTabs?: string[];
+    likedUsers?: string[];
 
     @ForeignKey(()=> Novel)
-    @Column({type: DataType.INTEGER.UNSIGNED, allowNull:false})
+    @Column({type: DataType.INTEGER.UNSIGNED})
     novelId!: number;
 
     @BelongsTo(()=>Novel)
