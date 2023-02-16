@@ -20,13 +20,13 @@ import { Novel } from "./Novel.model";
     })
     chapterId!: number;
     
-    @Column({type:DataType.INTEGER})
+    @Column({type:DataType.INTEGER, allowNull:false})
     chapterNumber? : number;
 
-    @Column({type:DataType.STRING})
+    @Column({type:DataType.STRING, allowNull:false})
     title!: string;
 
-    @Column({type:DataType.STRING})
+    @Column({type:DataType.STRING, allowNull:false})
     content!: string;
 
     @ForeignKey(()=> Novel) 
