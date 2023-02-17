@@ -13,7 +13,7 @@ export class Product extends Model {
       id?: any;
 
     @Column({type: DataType.INTEGER})
-    prodId?:number;
+    series?:number;
 
     @Column({type: DataType.STRING})
     name?:string;

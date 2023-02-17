@@ -32,16 +32,8 @@ export class Novel extends Model {
   @Column({type: DataType.INTEGER})
   likesCount: number = 0;
 
-  /*@ForeignKey(()=> LikesTab)
-  @Column({type: DataType.INTEGER.UNSIGNED})
-  likesId?: number;*/
-
   @HasMany(()=> LikesTab)
   likesTab!: LikesTab[];
-  /*
-  @ForeignKey(()=> Chapter)
-  @Column({type: DataType.INTEGER.UNSIGNED})
-  chapterId?: number; */
   
   @HasMany(()=> Chapter)
   chapters!: Chapter[];
