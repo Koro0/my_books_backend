@@ -10,7 +10,8 @@ import {
 
 import {
     createChapter,
-    getChapter,
+    getAllChapters,
+    getOneChapter,
 } from '../controllers/novel/chapter.controller'
 
 const multer = require('../middlewares/multer-config');
@@ -29,7 +30,8 @@ router.delete('/:novelId', deleteNovel);
 /**
  * Route for CRUD Novel => Chapter
  */
-router.post('/:novelId/chapter/',multer, createChapter);
-router.get('/:novelId/chapter/:chapterId', getChapter);
+router.post('/:novelId/chapter/', createChapter);
+router.get('/:novelId/chapter/', getAllChapters);
+router.get('/:novelId/chapter/:chapterId', getOneChapter);
 
 export default router;
