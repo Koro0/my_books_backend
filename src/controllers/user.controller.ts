@@ -1,14 +1,15 @@
-/*import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import User from '../models/user.model';
+import { Request, Response } from 'express';
+import bcrypt =  require('bcrypt');
+import jwt = require('jsonwebtoken');
+import {User} from '../models/user.model';
+require('dotenv').config();
 
 export const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
   try {
     // Vérifier si l'utilisateur existe déjà
-    const user = await User.findOne({ email });
+    const user = await User.findOne( email );
     if (user) {
       return res.status(400).json({ msg: 'L\'utilisateur existe déjà' });
     }
@@ -35,7 +36,7 @@ export const register = async (req: Request, res: Response) => {
     };
     jwt.sign(
       payload,
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET!,
       { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
@@ -43,8 +44,7 @@ export const register = async (req: Request, res: Response) => {
       }
     );
   } catch (err) {
-    console.error(err.message);
+    console.error({err});
     res.status(500).send('Erreur de serveur');
   }
 };
-*/
