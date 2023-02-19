@@ -3,11 +3,11 @@ import { Request, Response } from 'express';
 import fs = require('fs');
 
 export const createNovel = async (req:Request, res:Response) => {
-    const reqObject = req.body;
+    const REQUEST_OBJET = req.body;
     console.log(req.body);
     if(req.file) {
         const novel = await Novel.create({
-            ...reqObject,
+            ...REQUEST_OBJET,
             image:`${req.protocol}://${req.get('host')}/images/${
                 req.file?.filename
               }`,
@@ -19,7 +19,7 @@ export const createNovel = async (req:Request, res:Response) => {
         .status(200).json({message: "novel created successfully", data: novel});
     } else {
         const novel = await Novel.create({
-            ...reqObject,
+            ...REQUEST_OBJET,
             image: null,
             like:0,
             likesTab:[],
@@ -31,24 +31,24 @@ export const createNovel = async (req:Request, res:Response) => {
     
 };
 export const getAllNovel = async (req:Request, res:Response) => {
-    const allNovels : Novel[] = await Novel.findAll();
-    return res.status(200).json({message:'get it is Ok', data: allNovels})
+    const ALL_NOVELS : Novel[] = await Novel.findAll();
+    return res.status(200).json({message:'get it is Ok', data: ALL_NOVELS})
 };
 
 export const getOneNovel = async (req:Request, res:Response) => {
-    const novelId = req.params.novelId;
+    const NOVEL_ID = req.params.novelId;
     console.log(req.params.novelId);
-    const novel: Novel | null = await Novel.findByPk(novelId);
+    const NOVEL: Novel | null = await Novel.findByPk(NOVEL_ID);
     return res
-            .status(200).json({message: "Novel fetched successfully", data: novel});
+            .status(200).json({message: "Novel fetched successfully", data: NOVEL});
 }
 
 export const updateNovel = async (req:Request, res:Response) => {
-    const novelId = req.params.novelId;
+    const NOVEL_ID = req.params.novelId;
     if(req.file == null){
-        await Novel.update({...req.body},{where:{novelId}});
+        await Novel.update({...req.body},{where:{NOVEL_ID}});
     } else {
-        const forDeleteImg : Novel | null = await Novel.findByPk(novelId);
+        const forDeleteImg : Novel | null = await Novel.findByPk(NOVEL_ID);
         const filename:any= forDeleteImg?.image?.split('/')[4];
         console.log(filename);
         fs.unlink( `src/images/${filename}`, (err) => {
@@ -58,26 +58,26 @@ export const updateNovel = async (req:Request, res:Response) => {
         await Novel.update({...req.body,
             image:`${req.protocol}://${req.get('host')}/images/${
                 req.file?.filename
-              }`}, {where:{novelId}});
+              }`}, {where:{NOVEL_ID}});
     }
-    const updatedNovel: Novel | null = await Novel.findByPk(novelId);
+    const UPDATED_NOVEL: Novel | null = await Novel.findByPk(NOVEL_ID);
     return res
-            .status(200).json({message:"Novel update successfull", data :updatedNovel});
+            .status(200).json({message:"Novel update successfull", data :UPDATED_NOVEL});
 }
 
 export const deleteNovel = async (req:Request, res:Response) =>{
-    const novelId = req.params.novelId;
-    const deleteNovel : Novel | null = await Novel.findByPk(novelId);
+    const NOVEL_ID = req.params.novelId;
+    const DELETED_NOVEL : Novel | null = await Novel.findByPk(NOVEL_ID);
     
-    if(deleteNovel?.image){
-        const filename :string = deleteNovel.image.split('/')[4]; 
+    if(DELETED_NOVEL?.image){
+        const filename :string = DELETED_NOVEL.image.split('/')[4]; 
         console.log(filename);
         fs.unlink( `src/images/${filename}`, (err) => {
             if(err) {res.status(500).json({message: "Could not delete the file. " + err})}
             else{console.log('deleted image')};
         });
     }
-    await Novel.destroy({where: {novelId}});
+    await Novel.destroy({where: {NOVEL_ID}});
     return res 
-            .status(200).json({message: "Novel deleted successfull", data: deleteNovel});
+            .status(200).json({message: "Novel deleted successfull", data: DELETED_NOVEL});
 }

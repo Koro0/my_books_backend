@@ -9,33 +9,33 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     // Vérifier si l'utilisateur existe déjà
-    const user = await User.findOne( email );
-    if (user) {
+    const USER = await User.findOne( email );
+    if (USER) {
       return res.status(400).json({ msg: 'L\'utilisateur existe déjà' });
     }
 
     // Créer un nouvel utilisateur
-    const newUser = new User({
+    const NEW_USER = new User({
       name,
       email,
       password
     });
 
     // Hash le mot de passe
-    const salt = await bcrypt.genSalt(10);
-    newUser.password = await bcrypt.hash(password, salt);
+    const SALT = await bcrypt.genSalt(10);
+    NEW_USER.password = await bcrypt.hash(password, SALT);
 
     // Sauvegarder l'utilisateur dans la base de données
-    await newUser.save();
+    await NEW_USER.save();
 
     // Créer et signer le jeton JWT
-    const payload = {
+    const PAYLAOD = {
       user: {
-        id: newUser.id
+        id: NEW_USER.id
       }
     };
     jwt.sign(
-      payload,
+      PAYLAOD,
       process.env.JWT_SECRET!,
       { expiresIn: '1h' },
       (err, token) => {
