@@ -4,24 +4,34 @@ import { Request, Response } from 'express';
 
 export const createChapter = async (req:Request, res:Response) => {
     try{
-        const novelId  = req.params.novelId;
+        const NOVEL_ID  = req.params.novelId;
         const {chapterNumber, title, content} = req.body;
         if(!chapterNumber || !title || !content) {
             return res.status(400).json({
                 message: 'toutes les champs doivent être completer'
             })
         }
-        const newChapter = await Chapter.create({
-            chapterNumber,
-            title,
-            content,
-            novelId
-        });
-        return res
-        .status(201).json({
-            message: 'Chapter created successfully',
-            chapter: newChapter
-        })
+        const CHAPTER_EXISTED = Chapter.findOne({where: chapterNumber});
+        //trouver solution code si le chapter existe
+        if(CHAPTER_EXISTED) {
+            return res.status(400).json({
+                message: 'chapter is existed !',
+                dataExist: CHAPTER_EXISTED
+            })
+        } else {
+            const newChapter = await Chapter.create({
+                chapterNumber,
+                title,
+                content,
+                NOVEL_ID
+            });
+            return res
+            .status(201).json({
+                message: 'Chapter created successfully',
+                chapter: newChapter
+            })
+        }
+        
     } 
     catch(error) {
         res.status(500).json({error});
@@ -29,10 +39,10 @@ export const createChapter = async (req:Request, res:Response) => {
 }
 
 export const getAllChapters = async (req:Request, res:Response) => {
-    const novel_id = req.params.novelId;
+    const NOVEL_ID = req.params.novelId;
     await Chapter.findAll({
         where: {
-            novelId : novel_id
+            novelId : NOVEL_ID
     }})
     .then((chapters) => {
         if(!chapters) {
@@ -47,12 +57,12 @@ export const getAllChapters = async (req:Request, res:Response) => {
 
 
 export const getOneChapter = async (req:Request, res:Response) => {
-    const novelId = req.params.novelId;
-    const chapterNumber = req.params.chapterId;
+    const NOVEL_ID = req.params.novelId;
+    const CHAPTER_NUMBER = req.params.chapterId;
     await Chapter.findOne({
         where: {
-            novelId,
-            chapterNumber
+            NOVEL_ID,
+            CHAPTER_NUMBER
     }})
     .then((chapter) => {
         if(!chapter) {
