@@ -1,37 +1,37 @@
-import {Novel} from '../../models/Novel.model';
 import { Chapter } from '../../models/chapter.model';
 import { Request, Response } from 'express';
 
 export const createChapter = async (req:Request, res:Response) => {
     try{
-        const NOVEL_ID  = req.params.novelId;
+        const NOVEL_ID: number  = parseInt(req.params.novelId, 10);
         const {chapterNumber, title, content} = req.body;
         if(!chapterNumber || !title || !content) {
             return res.status(400).json({
                 message: 'toutes les champs doivent être completer'
             })
         }
-        const CHAPTER_EXISTED = Chapter.findOne({where: chapterNumber});
-        //trouver solution code si le chapter existe
-        if(CHAPTER_EXISTED) {
+        const [chapter, created] = await Chapter.findOrCreate({
+            where: {
+                chapterNumber:chapterNumber,
+                novelId:NOVEL_ID
+            },
+            defaults: {
+                chapterNumber:chapterNumber,
+                title:title,
+                content:content,
+                novelId:NOVEL_ID
+            }
+        });
+        if(!created) {
             return res.status(400).json({
                 message: 'chapter is existed !',
-                dataExist: CHAPTER_EXISTED
-            })
-        } else {
-            const newChapter = await Chapter.create({
-                chapterNumber,
-                title,
-                content,
-                NOVEL_ID
-            });
-            return res
-            .status(201).json({
-                message: 'Chapter created successfully',
-                chapter: newChapter
             })
         }
-        
+        return res
+        .status(201).json({
+            message: 'Chapter created successfully',
+            chapter: chapter
+        })
     } 
     catch(error) {
         res.status(500).json({error});
