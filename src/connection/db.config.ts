@@ -4,7 +4,7 @@ import { Novel } from "../models/Novel.model";
 import { User } from "../models/User.model";
 import { Product } from "../models/Product.model";
 import { Chapter } from "../models/chapter.model";
-import { LikesTab } from "../models/likesTabs.model";
+import { LikesTab } from "../models/LikesTabs.model";
 dotenv.config();
 
 // Créer une connexion à la base de données

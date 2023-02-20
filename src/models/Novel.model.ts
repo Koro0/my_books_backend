@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, ForeignKey, HasMany} from "sequelize-typescript";
 import { Chapter } from "./chapter.model";
-import { LikesTab} from "./likesTabs.model";
+import { LikesTab} from "./LikesTabs.model";
 
 @Table({
   tableName: 'Novel'
@@ -28,9 +28,6 @@ export class Novel extends Model {
 
   @Column({type: DataType.STRING})
   description?: string; 
-
-  @Column({type: DataType.INTEGER})
-  likesCount: number = 0;
 
   @HasMany(()=> LikesTab)
   likesTab!: LikesTab[];

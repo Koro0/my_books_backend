@@ -26,6 +26,9 @@ export class LikesTab extends Model {
     })
     likedUsers?: string[];
 
+    @Column({type: DataType.INTEGER})
+    likesCount: number = 0;
+    
     @ForeignKey(()=> Novel)
     @Column({type: DataType.INTEGER.UNSIGNED})
     novelId!: number;
