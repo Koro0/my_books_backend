@@ -12,7 +12,11 @@ import {
     createChapter,
     getAllChapters,
     getOneChapter,
-} from '../controllers/novel/chapter.controller'
+} from '../controllers/novel/chapter.controller';
+
+import {
+    likeNovel,
+} from '../controllers/novel/like.controller';
 
 const multer = require('../middlewares/multer-config');
 const router = Router();
@@ -33,5 +37,10 @@ router.delete('/:novelId', deleteNovel);
 router.post('/:novelId/chapter/', createChapter);
 router.get('/:novelId/chapter/', getAllChapters);
 router.get('/:novelId/chapter/:chapterId', getOneChapter);
+
+/**
+ * Routye for Like Tab for Liked or Disliked
+ */
+router.post('/:novelId/like', likeNovel);
 
 export default router;
