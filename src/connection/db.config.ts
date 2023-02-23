@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from 'dotenv';
-import { Novel } from "../models/Novel.model";
+import { Novel } from "../models/novel/Novel.model";
 import { User } from "../models/User.model";
-import { Product } from "../models/Product.model";
-import { Chapter } from "../models/chapter.model";
-import { LikesTab } from "../models/LikesTabs.model";
+import { Product } from "../models/scan/Product.model";
+import { Chapter } from "../models/novel/Chapter.model";
+import { LikesTab } from "../models/novel/LikesTabs.model";
 import { Etape } from "../models/recipe.model/etape.model";
 import { Recipe } from "../models/recipe.model/Recipe.model";
 dotenv.config();

@@ -1,10 +1,10 @@
-import {Novel} from '../models/Novel.model';
+import {Novel} from '../../models/novel/Novel.model';
 import { Request, Response } from 'express';
 import fs = require('fs');
 
 import {
     likeNovel,
-} from '../controllers/novel/like.controller';
+} from './like.controller';
 /**
  * 
  * @param req receve all req.body if there are a file, save file with a name

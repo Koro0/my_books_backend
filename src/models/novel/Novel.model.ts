@@ -29,6 +29,9 @@ export class Novel extends Model {
   @Column({type: DataType.STRING})
   description?: string; 
 
+  @Column({type: DataType.INTEGER})
+  likesCount: number = 0;
+  
   @HasMany(()=> LikesTab)
   likesTab!: LikesTab[];
   

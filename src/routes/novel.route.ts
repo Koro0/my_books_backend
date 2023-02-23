@@ -6,7 +6,7 @@ import {
     getOneNovel,
     updateNovel,
     deleteNovel,
-} from '../controllers/novel.controller';
+} from '../controllers/novel/novel.controller';
 
 import {
     createChapter,

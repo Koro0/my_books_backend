@@ -25,9 +25,6 @@ export class LikesTab extends Model {
         type: DataTypes.JSON
     })
     likedUsers?: string[];
-
-    @Column({type: DataType.INTEGER})
-    likesCount: number = 0;
     
     @ForeignKey(()=> Novel)
     @Column({type: DataType.INTEGER.UNSIGNED})

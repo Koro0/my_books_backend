@@ -1,4 +1,4 @@
-import { Chapter } from '../../models/chapter.model';
+import { Chapter } from '../../models/novel/Chapter.model';
 import { Request, Response } from 'express';
 
 /**
