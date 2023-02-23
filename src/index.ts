@@ -4,6 +4,7 @@ dotenv.config();
 
 import connection from './connection/db.config';
 import novelRoute from './routes/novel.route';
+import recipeRoute from './routes/recipe.route';
 
 const cors = require('cors')
 const app: Express = express();
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
   
 
   app.use('/api/novel', novelRoute);
+  app.use('/api/recipe', recipeRoute);
   app.use('/images', express.static(path.join(__dirname, 'images')));
   
 } else {
