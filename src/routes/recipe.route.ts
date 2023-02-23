@@ -1,11 +1,13 @@
 import {Router}  from 'express';
 import {
-    createRecipe
+    createRecipe,
+    getAllRecipe,
 } from '../controllers/Recipe/recipe.controllers';
 
 const multer = require('../middlewares/multer-config');
 const router = Router();
 
 router.post('/', multer, createRecipe);
+router.get('/',  getAllRecipe);
 
 export default router;
