@@ -36,4 +36,5 @@ import { Recipe } from "./Recipe.model";
 
     @BelongsTo(()=> Recipe)
     Recipe!: Recipe;
+
   }

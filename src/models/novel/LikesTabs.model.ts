@@ -8,6 +8,7 @@ import {
 }from "sequelize-typescript";
 import { DataTypes } from "sequelize";
 import { Novel } from "./Novel.model";
+import { Recipe } from "../recipe.model/Recipe.model";
 
 @Table({
     tableName: 'LikesTab' 
@@ -28,8 +29,15 @@ export class LikesTab extends Model {
     
     @ForeignKey(()=> Novel)
     @Column({type: DataType.INTEGER.UNSIGNED})
-    novelId!: number;
+    novelId?: number;
 
     @BelongsTo(()=>Novel)
     novel!: Novel;
+    
+    @ForeignKey(()=> Recipe)
+    @Column({type: DataType.INTEGER.UNSIGNED})
+    recipeId?: number;
+
+    @BelongsTo(()=>Recipe)
+    Recipe!: Recipe;
 }
