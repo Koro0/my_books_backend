@@ -24,3 +24,8 @@ export const createRecipe = async (req:Request, res:Response) => {
         return res.status(201).json({message: 'New recipe created !', data: recipe});
     }
 }
+
+export const getAllRecipe = async (req:Request, res:Response) => {
+    const ALL_RECIPES: Recipe[] = await Recipe.findAll();
+    return res.status(200).json({message:'get All recipes successfull', data: ALL_RECIPES});
+}
