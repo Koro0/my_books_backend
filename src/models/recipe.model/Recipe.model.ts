@@ -18,6 +18,9 @@ export class Recipe extends Model {
     })
     title?:string;
 
+    @Column({ type: DataType.STRING})
+    content?: string;
+
     @Column({type:DataType.STRING})
     image?: string;
 
