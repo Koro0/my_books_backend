@@ -5,20 +5,26 @@ import {User} from '../models/user.model';
 require('dotenv').config();
 
 export const register = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
 
   try {
+    const { pseudo, email, password } = req.body;
+    if (!pseudo || !email || !password ) {
+      return res.status(400).json({
+        message: 'toutes les champs doivent être rempli'
+      })
+    }
     // Vérifier si l'utilisateur existe déjà
-    const USER = await User.findOne( email );
-    if (USER) {
+    const USER_EXIST = await User.findOne( email );
+    if (USER_EXIST) {
       return res.status(400).json({ msg: 'L\'utilisateur existe déjà' });
     }
 
     // Créer un nouvel utilisateur
     const NEW_USER = new User({
-      name,
+      pseudo,
       email,
-      password
+      password,
+      admin:false
     });
 
     // Hash le mot de passe
@@ -37,7 +43,7 @@ export const register = async (req: Request, res: Response) => {
     jwt.sign(
       PAYLAOD,
       process.env.JWT_SECRET!,
-      { expiresIn: '1h' },
+      { expiresIn: '1h' }, 
       (err, token) => {
         if (err) throw err;
         res.json({ token });
