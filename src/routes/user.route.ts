@@ -1,12 +1,13 @@
 import {Router}  from 'express';
 import {
     register,
+    
 } from '../controllers/user.controller';
 
-const multer = require('../middlewares/multer-config');
+const auth = require('../middlewares/auth');
 const router = Router();
 
-router.post('/login', multer, register);
-router.post('/register', multer, register);
+//router.post('/login', auth, register);
+router.post('/register', auth, register);
 
 export default router;
