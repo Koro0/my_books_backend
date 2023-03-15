@@ -1,5 +1,5 @@
-import { Recipe } from "../../models/recipe.model/Recipe.model";
-import { Etape } from "../../models/recipe.model/etape.model";
+import { Recipe } from "../../models/recipe/Recipe.model";
+import { Etape } from "../../models/recipe/etape.model";
 import { Request, Response } from "express";
 
 export const createRecipe = async (req:Request, res:Response) => {

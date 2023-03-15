@@ -1,5 +1,5 @@
-import { Table, Column, Model, DataType, ForeignKey, HasMany} from "sequelize-typescript";
-import { Chapter } from "./chapter.model";
+import { Table, Column, Model, DataType, HasMany} from "sequelize-typescript";
+import { Chapter } from "./Chapter.model";
 import { LikesTab} from "./LikesTabs.model";
 
 @Table({

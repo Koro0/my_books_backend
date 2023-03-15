@@ -8,7 +8,7 @@ import {
 }from "sequelize-typescript";
 import { DataTypes } from "sequelize";
 import { Novel } from "./Novel.model";
-import { Recipe } from "../recipe.model/Recipe.model";
+import { Recipe } from "../recipe/Recipe.model";
 
 @Table({
     tableName: 'LikesTab' 
