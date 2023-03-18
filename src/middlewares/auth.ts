@@ -7,7 +7,7 @@ interface TokenPayload {
   userId: number;
 }
 
-export default function authenticate(
+ const authenticate = () => (
   req: Request,
   res: Response,
   next: NextFunction
@@ -19,7 +19,7 @@ export default function authenticate(
     return res.status(401).json({ error: 'Missing Authorization header' });
   }
 
-  const [token] = authHeader.split(' ')[1];
+  const token = authHeader.split(' ')[1];
 
   try {
     // Valider le token JWT
@@ -34,3 +34,4 @@ export default function authenticate(
     return res.status(401).json({ error: 'Invalid token' });
   }
 }
+export default authenticate;
