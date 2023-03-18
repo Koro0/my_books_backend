@@ -7,6 +7,7 @@ import novelRoute from './routes/novel.route';
 import recipeRoute from './routes/recipe.route';
 import userRoute from './routes/user.route';
 
+
 const cors = require('cors')
 const app: Express = express();
 const path = require('path');
@@ -28,23 +29,30 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   next();
 });
 
+
 if (process.env.NODE_ENV === 'development') {
   connection
   .sync()
-  .then(()=> {console.log('Database successfully connected')})
-  .catch((err)=>{console.log('Error :', err)});
-
+  .then(()=> {
+    console.log('Database successfully connected');
   
-
-  app.use('/api/novel', novelRoute);
-  app.use('/api/recipe', recipeRoute);
-  app.use('/images', express.static(path.join(__dirname, 'images')));
-  app.use('/api/users', userRoute)
+    app.use('/api/novel', novelRoute);
+    app.use('/api/recipe', recipeRoute);
+    app.use('/images', express.static(path.join(__dirname, 'images')));
+    app.use('/api/users', userRoute);
+  })
+  .catch((err)=>{console.log('Error :', err)});
   
 } else {
-  app.use('*', (req: Request, res: Response) => {
-    res.redirect('https://github.com/Koro0/my_books_backend' + req.url);
-  });
+  connection
+  .sync({force: true})
+  .then(()=> {
+    console.log('Database successfully connected');
+    app.use('*', (req: Request, res: Response) => {
+      res.redirect('https://github.com/Koro0/my_books_backend' + req.url);
+    });
+  })
+  .catch((err)=>{console.log('Error :', err)});
 }
 
 app.listen(port, () => {
