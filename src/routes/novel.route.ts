@@ -19,7 +19,7 @@ import {
 } from '../controllers/novel/like.controller';
 
 const multer = require('../middlewares/multer-config');
-const router = Router();
+const router: Router = Router();
 
 
 /**
