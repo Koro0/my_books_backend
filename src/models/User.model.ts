@@ -9,7 +9,7 @@ export class User extends Model {
     autoIncrement: true,
     primaryKey: true
   })
-  id?: any;
+  id!: number;
 
   @Column({ type: DataType.STRING})
   pseudo?: string;
@@ -31,6 +31,6 @@ export class User extends Model {
   @Column({
     type: DataType.BOOLEAN,
   })
-  adminStatus!:boolean;
+  adminStatus:boolean = false;
 }
 
