@@ -7,11 +7,11 @@ interface TokenPayload {
   userId: number;
 }
 
- const authenticate = () => (
+ const authenticate = (
   req: Request,
   res: Response,
   next: NextFunction
-) {
+) => {
   // Récupérer le token JWT du header "Authorization"
   const authHeader = req.headers.authorization;
 
