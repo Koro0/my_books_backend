@@ -5,7 +5,7 @@ import {
 } from '../controllers/Recipe/recipe.controllers';
 
 const multer = require('../middlewares/multer-config');
-const router = Router();
+const router: Router = Router();
 
 router.post('/', multer, createRecipe);
 router.get('/',  getAllRecipe);
