@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import bcrypt =  require('bcrypt');
 import jwt = require('jsonwebtoken');
-import {User} from '../models/user.model';
+import { User } from '../models/user.model';
 require('dotenv').config();
 
-export const register = async (req: Request, res: Response) => {
+export  const createUser = async (req: Request, res: Response) => {
 
   try {
     const { pseudo, email, password } = req.body;
