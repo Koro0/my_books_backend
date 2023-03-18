@@ -1,13 +1,13 @@
-import {Router}  from 'express';
+import {Router, RequestHandler}  from 'express';
+import authenticate from '../middlewares/auth';
 import {
-    register,
-    
+    createUser
 } from '../controllers/user.controller';
 
-const auth = require('../middlewares/auth');
-const router = Router();
+const auth:RequestHandler = authenticate;
+const router: Router = Router();
 
 //router.post('/login', auth, register);
-router.post('/register', auth, register);
+router.post('/register', auth, createUser);
 
 export default router;
