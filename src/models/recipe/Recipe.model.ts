@@ -11,7 +11,7 @@ export class Recipe extends Model {
         autoIncrement: true,
         primaryKey: true
     })
-    RecipeId?: any;
+    recipeId?: number;
 
     @Column({
         type: DataType.STRING
