@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
 import {Ingredients} from './Ingredients.model';
-
+import {Method} from './Method.model';
 @Table({
     tableName: 'Cocktail'
 })
@@ -30,5 +30,6 @@ export class Cocktail extends Model {
     @HasMany(()=> Ingredients)
     ingredients?:string[];
 
-
+    @HasMany(()=> Method)
+    method?:string[];
 }
