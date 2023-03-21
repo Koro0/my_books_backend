@@ -7,8 +7,9 @@ import {
     ForeignKey,
 }from "sequelize-typescript";
 import { DataTypes } from "sequelize";
-import { Novel } from "./Novel.model";
-import { Recipe } from "../recipe/Recipe.model";
+import { Novel } from "./novel/Novel.model";
+import { Recipe } from "./recipe/Recipe.model";
+import { Cocktail } from "./recipe/Cocktail.model";
 
 @Table({
     tableName: 'LikesTab' 
@@ -32,12 +33,19 @@ export class LikesTab extends Model {
     novelId?: number;
 
     @BelongsTo(()=>Novel)
-    novel!: Novel;
+    novel?: Novel;
     
     @ForeignKey(()=> Recipe)
     @Column({type: DataType.INTEGER.UNSIGNED})
     recipeId?: number;
 
     @BelongsTo(()=>Recipe)
-    Recipe!: Recipe;
+    recipe?: Recipe;
+
+    @BelongsTo(()=> Cocktail)
+    cocktail?:Cocktail;
+
+    @ForeignKey(()=> Cocktail)
+    @Column({type:DataType.INTEGER.UNSIGNED})
+    cocktailId?: number;
 }
