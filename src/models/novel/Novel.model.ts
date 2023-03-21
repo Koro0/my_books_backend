@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, HasMany} from "sequelize-typescript";
 import { Chapter } from "./Chapter.model";
-import { LikesTab} from "./LikesTabs.model";
+import { LikesTab} from "../LikesTabs.model";
 
 @Table({
   tableName: 'Novel'
