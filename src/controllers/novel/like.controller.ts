@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { LikesTab } from '../../models/novel/LikesTabs.model';
+import { LikesTab } from '../../models/LikesTabs.model';
 /**
  * system a revoir
  * @param req 
