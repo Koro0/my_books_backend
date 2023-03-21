@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
 import { Cocktail } from './Cocktail.model';
+import { Recipe } from './Recipe.model';
 @Table({
     tableName: 'Ingredients'
 })
@@ -11,13 +12,20 @@ export class Ingredients extends Model {
     })
     ingredientsId?: number;
 
-    @Column({type:DataType.NUMBER, autoIncrement:true})
-    etapeNumber?:number;
-
     @Column({type:DataType.STRING})
-    etape?:string;
+    content?:string;
 
     @BelongsTo(()=> Cocktail)
-    cocktail!:Cocktail;
+    cocktail?:Cocktail;
+    
+    @ForeignKey(()=> Cocktail)
+    @Column({type: DataType.INTEGER.UNSIGNED})
+    cocktailId?:number;
 
+    @BelongsTo(()=> Recipe)
+    recipe?:Recipe;
+
+    @ForeignKey(()=> Recipe)
+    @Column({ type:DataType.INTEGER.UNSIGNED})
+    recipeId?:number;
 }
