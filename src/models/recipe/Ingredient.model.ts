@@ -2,18 +2,21 @@ import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize
 import { Cocktail } from './Cocktail.model';
 import { Recipe } from './Recipe.model';
 @Table({
-    tableName: 'Ingredients'
+    tableName: 'Ingredient'
 })
-export class Ingredients extends Model {
+export class Ingredient extends Model {
     @Column({
         type: DataType.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
     })
-    ingredientsId?: number;
+    ingredientId?: number;
 
     @Column({type:DataType.STRING})
-    content?:string;
+    quantity?:string;
+
+    @Column({type:DataType.STRING})
+    name?:string;
 
     @BelongsTo(()=> Cocktail)
     cocktail?:Cocktail;
