@@ -2,7 +2,7 @@ import { Table, Column, Model, DataType, HasMany, BelongsTo, ForeignKey } from "
 import { LikesTab } from "../LikesTabs.model";
 import { User } from "../User.model";
 import { Method } from "./Method.model";
-
+import { Ingredient } from "./Ingredient.model";
 @Table({
   tableName: 'Recipe'
 }) 
@@ -36,6 +36,16 @@ export class Recipe extends Model {
     likes!: LikesTab[];
 
     @HasMany(()=> Method)
+    ingredients!: Ingredient[];
+
+    @HasMany(()=> Method)
     methods!: Method[];
 
+    public async addIngredient(ingredient:Ingredient): Promise<void> {
+        await this.$add('Ingredient', ingredient);
+    }
+
+    public async addMethod(method:Method): Promise<void> {
+        await this.$add('Method', method);
+    }
 }
