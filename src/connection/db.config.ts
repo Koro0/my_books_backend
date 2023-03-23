@@ -10,7 +10,7 @@ import { Product } from "../models/scan/Product.model";
 import { Chapter } from "../models/novel/Chapter.model";
 import { LikesTab } from "../models/LikesTabs.model";
 import { Cocktail } from "../models/recipe/Cocktail.model";
-import { Ingredients } from "../models/recipe/Ingredients.model";
+import { Ingredient } from "../models/recipe/Ingredient.model";
 import { Method } from "../models/recipe/Method.model";
 
 // Créer une connexion à la base de données
@@ -23,7 +23,7 @@ const connection = new Sequelize(
     dialect: "mysql"
   }
 );
-connection.addModels([User, Recipe, Novel, Product, Chapter, LikesTab, Cocktail, Ingredients, Method]); 
+connection.addModels([User, Recipe, Cocktail, Novel, Product, Chapter, LikesTab, Ingredient, Method]); 
 
 
 export default connection 
