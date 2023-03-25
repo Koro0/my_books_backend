@@ -41,3 +41,55 @@ export class Cocktail extends Model {
         await this.$add('methods', method);
     }
 }
+
+/*
+Format tab Cockktail :
+
+    {
+        "title": ?,
+        "difficulty": ?,
+        "portion": ?,
+        "time": ?,
+        "description": ??,
+        "ingredientList": [
+            {
+                "name": ?,
+                "quantity": "6 cl"
+            },
+            {
+                "name": ?,
+                "quantity": "3 cl"
+            },
+            {
+                "name": ?,
+                "quantity": "8"
+            },
+            {
+                "name": ?,
+                "quantity": ?
+            },
+            {
+                "name": ?,
+                "quantity": string
+            }
+            ...
+        ],
+        "methodList": [
+            {
+                "stepNumber": 1,
+                "description": ??? 
+            },
+            {
+                "stepNumber": 2,
+                "description": ?
+            },
+            {
+                "stepNumber": 3,
+                "description": string
+            }
+            ...
+        ]
+
+    }
+
+*/
