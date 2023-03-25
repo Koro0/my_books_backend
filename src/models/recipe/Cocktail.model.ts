@@ -10,7 +10,7 @@ export class Cocktail extends Model {
         autoIncrement:true,
         primaryKey:true
     })
-    cocktailId!:number;
+    cocktailId?:number;
 
     @Column({type:DataType.STRING})
     title!: string;

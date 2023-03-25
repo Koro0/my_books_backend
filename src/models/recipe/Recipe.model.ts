@@ -3,6 +3,7 @@ import { LikesTab } from "../LikesTabs.model";
 import { User } from "../User.model";
 import { Method } from "./Method.model";
 import { Ingredient } from "./Ingredient.model";
+
 @Table({
   tableName: 'Recipe'
 }) 

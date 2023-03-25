@@ -13,8 +13,11 @@ export class Method extends Model{
     })
     methodId!: number;
 
+    @Column({type:DataType.INTEGER})
+    stepNumber?:number;
+
     @Column({ type:DataType.STRING})
-    methodText?:string;
+    description?:string;
 
     @BelongsTo(()=> Cocktail)
     cocktail?:Cocktail;
