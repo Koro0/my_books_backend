@@ -21,7 +21,13 @@ export class Recipe extends Model {
     title?:string;
 
     @Column({ type: DataType.STRING})
-    content?: string;
+    description?: string;
+
+    @Column({type:DataType.STRING})
+    portion?:string;
+
+    @Column({type:DataType.STRING})
+    time?:string;
 
     @Column({type:DataType.STRING})
     image?: string;
