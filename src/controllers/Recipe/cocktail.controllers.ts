@@ -36,3 +36,37 @@ export const createCocktail = async (req:Request,res:Response)=> {
         res.status(500).json({ message: 'Erreur lors de la creation de cocktail !'});
     }
 }
+
+export const getAllCocktails = async (req:Request, res:Response) => {
+    try {
+        const cocktails = await Cocktail.findAll();
+        res.status(200).json({ cocktails});
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Aucuns cocktail retrouvé !'})
+    }
+
+}
+
+export const getOneCocktail = async (req:Request, res:Response) => {
+    const ID = req.params.id;
+    try {
+        const cocktail = await Cocktail.findOne({where: {cocktailId: ID}});
+        if (!cocktail) {
+            return res.status(404).json({message: "Cocktail introuvable."});
+          }
+        const ingredients = await Ingredient.findOne({where: {cocktailId: ID}});
+        if (!ingredients) {
+            return res.status(404).json({message: "Ingredient introuvable."});
+          }
+        const methods = await Method.findOne({where: {cocktailId: ID}});
+        if (!methods) {
+            return res.status(404).json({message: "Method introuvable."});
+          }
+        
+        res.status(200).json({message: "recette trouvé !", cocktail, ingredients, methods});
+    }
+    catch (error) {
+        res.status(400).json({message: "Cocktail n°"+ ID + " désigné est introuvable."})
+    }
+}
