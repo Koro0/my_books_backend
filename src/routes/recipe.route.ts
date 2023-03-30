@@ -16,6 +16,6 @@ router.post('/', multer, createRecipe);
 router.get('/',  getAllRecipe);
 
 router.post('/cocktail', multer, createCocktail);
-router.get('/cocktail', multer, getAllCocktails);
-router.get('/cocktail/:id', multer, getOneCocktail);
+router.get('/cocktail',  getAllCocktails);
+router.get('/cocktail/:id', getOneCocktail);
 export default router;

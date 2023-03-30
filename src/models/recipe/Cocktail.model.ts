@@ -28,10 +28,10 @@ export class Cocktail extends Model {
     description?:string;
 
     @HasMany(()=> Ingredient)
-    ingredients?:string[];
+    ingredients!:string[];
 
     @HasMany(()=> Method)
-    methods?:string[];
+    methods!:string[];
 
     public async addIngredient(ingredient:Ingredient): Promise<void> {
         await this.$add('ingredients', ingredient);

@@ -11,7 +11,7 @@ export class Method extends Model{
         primaryKey:true,
         autoIncrement: true
     })
-    methodId!: number;
+    methodId?: number;
 
     @Column({type:DataType.INTEGER})
     stepNumber?:number;
