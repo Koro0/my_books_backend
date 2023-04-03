@@ -55,11 +55,11 @@ export const getOneCocktail = async (req:Request, res:Response) => {
         if (!cocktail) { // verif pour async
             return res.status(404).json({message: "Cocktail n°"+ ID + " introuvable."});
           }
-        const ingredients = await Ingredient.findOne({where: {cocktailId: ID}});
+        const ingredients = await Ingredient.findAll({where: {cocktailId: ID}});
         if (!ingredients) {
             return res.status(404).json({message: "Ingredient introuvable."});
           }
-        const methods = await Method.findOne({where: {cocktailId: ID}});
+        const methods = await Method.findAll({where: {cocktailId: ID}});
         if (!methods) {
             return res.status(404).json({message: "Method introuvable."});
           }
