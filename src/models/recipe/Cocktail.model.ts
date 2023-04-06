@@ -27,6 +27,9 @@ export class Cocktail extends Model {
     @Column({type:DataType.STRING})
     description?:string;
 
+    @Column({type:DataType.STRING})
+    videoLink?:string;
+
     @HasMany(()=> Ingredient)
     ingredients!:string[];
 
