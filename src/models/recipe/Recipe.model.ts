@@ -37,7 +37,7 @@ export class Recipe extends Model {
 
     @ForeignKey(()=> User)
     @Column({type: DataType.INTEGER.UNSIGNED})
-    author!: number;
+    author?: number;
 
     @HasMany(()=> LikesTab)
     likes!: LikesTab[];
