@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import { Table, Column, Model, DataType, HasMany } from "sequelize-typescript";
+import { Recipe } from "./recipe/Recipe.model";
 
 @Table({
   tableName: 'User'
@@ -32,5 +33,8 @@ export class User extends Model {
     type: DataType.BOOLEAN,
   })
   adminStatus:boolean = false;
+
+  @HasMany(()=> Recipe)
+  recipe?:string[];
 }
 
