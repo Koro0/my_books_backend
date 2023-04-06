@@ -5,14 +5,17 @@ import { Method } from "../../models/recipe/Method.model";
 
 export const createRecipe = async (req:Request, res:Response) => {
     try {
-        const {title, content, ingredientList, methodList} = req.body;
+        const {title, description, author, portion, time, ingredientList, methodList} = req.body;
         
             const recipe = await Recipe.create({
                 title, 
-                content,
+                description,
                 image: (req.file ?`${req.protocol}://${req.get('host')}/images/${
                     req.file?.filename
                 }`: null),
+                author, 
+                portion, 
+                time,
                 likes:[]
             });
         
