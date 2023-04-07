@@ -3,12 +3,27 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Créer et ajouter un module auth a Request de express
+declare global {
+  namespace Express {
+    interface Request {
+      auth?: {userId: number};
+    }
+  }
+}
+
+// Typer userId
 interface TokenPayload {
   userId: number;
 }
 
+//typer le nouveau module req.auth
+interface AuthenticatedUserId extends Request {
+  auth: {userId:number};
+}
+
  const authenticate = (
-  req: Request,
+  req: AuthenticatedUserId,
   res: Response,
   next: NextFunction
 ) => {
@@ -28,6 +43,7 @@ interface TokenPayload {
     if(req.body.userId && req.body.userId !== userId){
       throw 'Invalid user ID';
     } else {
+      req.auth = { userId };
       return next();
     }
   } catch (err) {
