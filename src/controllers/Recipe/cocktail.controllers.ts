@@ -2,7 +2,14 @@ import { Request, Response } from "express";
 import { Cocktail } from "../../models/recipe/Cocktail.model";
 import { Ingredient } from "../../models/recipe/Ingredient.model";
 import { Method } from "../../models/recipe/Method.model";
+import { User } from "../../models/User.model";
 
+/**
+ * 
+ * @param req request body
+ * @param res create a new cocktail recipe
+ * @return message and the new recipe
+ */
 export const createCocktail = async (req:Request,res:Response)=> {
     try{
         // récupération des données envoyées dans la requête
@@ -11,6 +18,9 @@ export const createCocktail = async (req:Request,res:Response)=> {
         //creer le cocktail 
         const cocktail = await Cocktail.create({
             title, 
+            image: (req.file ?`${req.protocol}://${req.get('host')}/images/${
+                    req.file?.filename
+                }`: null),
             difficulty,
             portion, 
             time, 
@@ -37,6 +47,10 @@ export const createCocktail = async (req:Request,res:Response)=> {
     }
 }
 
+/**
+ * 
+ * @param res return all cocktail to find in database
+ */
 export const getAllCocktails = async (req:Request, res:Response) => {
     try {
         const cocktails = await Cocktail.findAll();
@@ -48,6 +62,12 @@ export const getAllCocktails = async (req:Request, res:Response) => {
 
 }
 
+/**
+ * 
+ * @param req get params id
+ * @param res return cocktail data with their ingredient and mathod
+ * @returns message if we have a erreur 
+ */
 export const getOneCocktail = async (req:Request, res:Response) => {
     const ID = req.params.id;
     try {
@@ -67,5 +87,37 @@ export const getOneCocktail = async (req:Request, res:Response) => {
     }
     catch (error) {
         res.status(400).json({message: "Cocktail désigné est introuvable."})
+    }
+}
+
+/**
+ * 
+ * @param req get Cocktail Id and userId
+ * @param res 
+ * @returns 
+ */
+export const deleteCocktail = async (req:Request, res:Response) => {
+    const ID = req.params.id;
+    const userId = req.auth;
+    try {
+        const user = await User.findByPk(ID);
+        if(!user) { // verifie si l'user existe
+            return res.status(400).json({message: "Utilisateur" + userId + " introuvable !"})
+        }
+        const itIsAdmin:boolean = user.adminStatus;
+        if(!itIsAdmin) {
+            res.status(401).json({message:"Don't have access !"})
+        }
+        const cocktail = await Cocktail.findByPk(ID);
+        if(!cocktail){
+            return res.status(400).json({ message: "Cocktail instrouvable"})
+        }
+        Cocktail.destroy({where: {cocktailId:ID}});
+        Ingredient.destroy({where: {cocktailId:ID}});
+        Method.destroy({where: {cocktailId:ID}});
+        return res.status(200).json({message: "Cocktail supprim avec succes"})
+    }
+    catch(error) {
+        res.status(400).json({message: "Error de supprimer du Cocktail "+ID})
     }
 }
