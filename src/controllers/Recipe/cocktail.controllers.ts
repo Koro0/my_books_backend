@@ -104,8 +104,8 @@ export const deleteCocktail = async (req:Request, res:Response) => {
         if(!user) { // verifie si l'user existe
             return res.status(400).json({message: "Utilisateur" + userId + " introuvable !"})
         }
-        const itIsAdmin:boolean = user.adminStatus;
-        if(!itIsAdmin) {
+        const itIsAdmin:number = user.adminStatus;
+        if(itIsAdmin==0) {
             res.status(401).json({message:"Don't have access !"})
         }
         const cocktail = await Cocktail.findByPk(ID);

@@ -30,9 +30,9 @@ export class User extends Model {
   password!:string;
 
   @Column({
-    type: DataType.BOOLEAN,
+    type: DataType.NUMBER,
   })
-  adminStatus:boolean = false;
+  adminStatus:number = 0 | 1;
 
   @HasMany(()=> Recipe)
   recipe?:string[];
