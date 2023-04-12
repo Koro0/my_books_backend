@@ -54,3 +54,44 @@ export  const createUser = async (req: Request, res: Response) => {
     res.status(500).send('Erreur de serveur');
   }
 };
+
+export const login = async (req:Request, res:Response) => {
+  const {email, password}= req.body;
+  console.log(req.body);
+  try {
+    const user = await User.findOne({where:{email:email}})
+    if(!user) {
+      res.send(400).json({message: "identifiant incorrect !"})
+    };
+    const PAYLAOD = {
+      user: {
+        id: user!.id
+      }
+    };
+    bcrypt
+        .compare(password, user!.password)
+        .then((valid) => {
+          if (!valid) {
+            return res
+              .status(401)
+              .json({ message: 'Mot de passe incorrecte!' });
+          }
+          res.status(200).json({
+            userId: user!.id,
+            token: jwt.sign(
+              PAYLAOD,
+              process.env.JWT_SECRET!,
+              { expiresIn: '5h' }, 
+              (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+              }
+            ),
+          });
+        })
+        .catch(() => res.status(500).json({ error: 'error bcrypt' }));
+  }
+  catch (error) {
+    res.status(400).json({message:"error Connexion !"})
+  }
+}
