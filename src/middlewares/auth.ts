@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Créer et ajouter un module auth a Request de express
+
 declare global {
   namespace Express {
     interface Request {
@@ -19,7 +20,9 @@ interface TokenPayload {
 
 //typer le nouveau module req.auth
 interface AuthenticatedUserId extends Request {
-  auth: {userId:number};
+  auth?: {
+    userId:number;
+  }
 }
 
  const authenticate = (

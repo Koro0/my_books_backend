@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt =  require('bcrypt');
 import jwt = require('jsonwebtoken');
-import { User } from '../models/user.model';
+import { User } from '../models/User.model';
 require('dotenv').config();
 
 export  const createUser = async (req: Request, res: Response) => {
