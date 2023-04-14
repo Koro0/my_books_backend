@@ -43,3 +43,28 @@ export const getAllRecipe = async (req:Request, res:Response) => {
     const ALL_RECIPES: Recipe[] = await Recipe.findAll();
     return res.status(200).json({message:'get All recipes successfull', data: ALL_RECIPES});
 }
+
+export const getOneRecipe = async (res:Response, req:Request) => {
+    const selectedRecipe = req.params.id;
+    let searchParams = {
+        where: {recipeId: selectedRecipe}
+    };
+    try {
+        const recipe = await Recipe.findOne(searchParams);
+        if (!recipe) {
+            return res.status(400).json({message: "Recipe not found "});
+        }
+        const ingredients = await Ingredient.findAll(searchParams);
+        if (!ingredients) {
+            return res.status(400).json({message:"Ingredient not found "});
+        }
+        const methods = await Method.findAll(searchParams);
+        if (!methods) {
+            return res.status(400).json({message:"Methods not found "});
+        }
+        res.status(200).json({message: "recipe founded", recipe, ingredients, methods});
+    }
+    catch (err) {
+        res.status(400).json({message: "error with recipe n°" + selectedRecipe, err});
+    }
+}
