@@ -68,3 +68,28 @@ export const getOneRecipe = async (res:Response, req:Request) => {
         res.status(400).json({message: "error with recipe n°" + selectedRecipe, err});
     }
 }
+
+export const deleteRecipe = async (res:Response, req:Request) => {
+    const selectedRecipe = req.params.id;
+    let searchParams = {
+        where: {recipeId: selectedRecipe}
+    };
+    try {
+        const deletedRecipe = await Recipe.destroy(searchParams);
+        if(!deleteRecipe) {
+            return res.status(400).json({message: "selected to delete recipe is not found"})
+        }
+        const associateIngredients = await Ingredient.destroy(searchParams);
+        if(!associateIngredients) {
+            return res.status(400).json({message: "associate ingredients is not found"})
+        }
+        const associateMethods = await Method.destroy(searchParams);
+        if(!associateMethods) {
+            return res.status(400).json({message: "associate Methods is not found"})
+        }
+        res.status(200).json({message: "delete recipe n°" + selectedRecipe + "successfull", deletedRecipe})
+    }
+    catch (err) {
+        res.status(400).json({message: "Error with delete recipe", err})
+    }
+}
