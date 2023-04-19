@@ -1,11 +1,10 @@
-import {Router, RequestHandler}  from 'express';
-import authenticate from '../middlewares/auth';
+import {Router}  from 'express';
+
 import {
     createUser,
     login,
 } from '../controllers/user.controller';
 
-const auth:RequestHandler = authenticate;
 const router: Router = Router();
 
 router.post('/login', login);
