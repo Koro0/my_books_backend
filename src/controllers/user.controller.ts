@@ -14,9 +14,9 @@ export  const createUser = async (req: Request, res: Response) => {
       })
     }
     // Vérifier si l'utilisateur existe déjà
-    const USER_EXIST = await User.findOne( email );
-    if (!USER_EXIST) {
-      return res.status(400).json({ msg: 'L\'utilisateur existe déjà' });
+    const USER_EXIST = await User.findOne( { where: { email } } );
+    if (USER_EXIST) {
+      return res.status(400).json({ message: 'L\'utilisateur existe déjà' });
     }
 
     // Créer un nouvel utilisateur
@@ -24,7 +24,7 @@ export  const createUser = async (req: Request, res: Response) => {
       pseudo,
       email,
       password,
-      admin:0,
+      adminStatus:0,
     });
 
     // Hash le mot de passe
@@ -33,7 +33,7 @@ export  const createUser = async (req: Request, res: Response) => {
 
     // Sauvegarder l'utilisateur dans la base de données
     await NEW_USER.save();
-
+    return res.status(201).json({message: "Account is created"});
   } catch (err) {
     console.error({err});
     res.status(500).send('Erreur de serveur');
