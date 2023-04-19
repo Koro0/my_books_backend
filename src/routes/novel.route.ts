@@ -1,4 +1,5 @@
-import {Router}  from 'express';
+import {Router, RequestHandler}  from 'express';
+import authenticate from '../middlewares/auth';
 
 import {
     createNovel,
@@ -20,21 +21,21 @@ import {
 
 const multer = require('../middlewares/multer-config');
 const router: Router = Router();
-
+const auth:RequestHandler = authenticate;
 
 /**
  * Route for CRUD Novel
  */
-router.post('/', multer, createNovel);
+router.post('/', multer, auth, createNovel);
 router.get('/', getAllNovel);
 router.get('/:novelId', getOneNovel);
 router.put('/:novelId', multer, updateNovel);
-router.delete('/:novelId', deleteNovel);
+router.delete('/:novelId', auth, deleteNovel);
 
 /**
  * Route for CRUD Novel => Chapter
  */
-router.post('/:novelId/chapter/', createChapter);
+router.post('/:novelId/chapter/', auth, createChapter);
 router.get('/:novelId/chapter/', getAllChapters);
 router.get('/:novelId/chapter/:chapterId', getOneChapter);
 

@@ -1,4 +1,5 @@
-import {Router}  from 'express';
+import {Router, RequestHandler}  from 'express';
+import authenticate from '../middlewares/auth';
 import {
     createRecipe,
     getAllRecipe,
@@ -15,6 +16,7 @@ import {
 
 const multer = require('../middlewares/multer-config');
 const router: Router = Router();
+const auth:RequestHandler = authenticate;
 
 router.post('/', multer, createRecipe);
 router.get('/',  getAllRecipe);
