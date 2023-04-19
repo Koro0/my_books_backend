@@ -12,6 +12,7 @@ import { LikesTab } from "../models/LikesTabs.model";
 import { Cocktail } from "../models/recipe/Cocktail.model";
 import { Ingredient } from "../models/recipe/Ingredient.model";
 import { Method } from "../models/recipe/Method.model";
+import { Comments } from "../models/Comments.models";
 
 // Créer une connexion à la base de données
 const connection = new Sequelize(
@@ -23,7 +24,7 @@ const connection = new Sequelize(
     dialect: "mysql"
   }
 );
-connection.addModels([User, Recipe, Cocktail, Novel, Product, Chapter, LikesTab, Ingredient, Method]); 
+connection.addModels([User, Recipe, Cocktail, Novel, Product, Chapter, LikesTab, Comments, Ingredient, Method]); 
 
 
 export default connection 
