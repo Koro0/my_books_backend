@@ -6,13 +6,14 @@ import { Cocktail } from "../models/recipe/Cocktail.model";
 
 export const createCommentRecipe =async (res:Response, req:Request) => {
     const recipeId = req.params.recipeId;
+    const authId = req.auth;
     try {
         const { userId, commentText } = req.body;
         if (!userId || !commentText) {
             return res.status(400).json({msg: "Contenu obligatoire"})
         }
         const NEW_COMMENT = await Comments.create({
-            userId,
+            userId:authId,
             commentText,
             recipeId,
         }) 
@@ -25,13 +26,14 @@ export const createCommentRecipe =async (res:Response, req:Request) => {
 
 export const createCommentNovel =async (res:Response, req:Request) => {
     const novelId = req.params.novelId;
+    const authId = req.auth;
     try {
         const { userId, commentText } = req.body;
         if (!userId || !commentText) {
             return res.status(400).json({msg: "Contenu obligatoire"})
         }
         const NEW_COMMENT = await Comments.create({
-            userId,
+            userId:authId,
             commentText,
             novelId
         }) 
@@ -44,13 +46,14 @@ export const createCommentNovel =async (res:Response, req:Request) => {
 
 export const createCommentCocktail=async (res:Response, req:Request) => {
     const cocktailId = req.params.cocktailId;
+    const authId = req.auth;
     try {
         const { userId, commentText } = req.body;
         if (!userId || !commentText) {
             return res.status(400).json({msg: "Contenu obligatoire"})
         }
         const NEW_COMMENT = await Comments.create({
-            userId,
+            userId:authId,
             commentText,
             cocktailId
         }) 
