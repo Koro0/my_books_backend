@@ -2,9 +2,12 @@ import {Router}  from 'express';
 import {
     createRecipe,
     getAllRecipe,
+    getOneRecipe,
+    deleteRecipe,
 } from '../controllers/Recipe/recipe.controllers';
 
-import { createCocktail,
+import { 
+    createCocktail,
     deleteCocktail,
     getAllCocktails,
     getOneCocktail,
@@ -15,6 +18,8 @@ const router: Router = Router();
 
 router.post('/', multer, createRecipe);
 router.get('/',  getAllRecipe);
+router.get('/id',  getOneRecipe);
+router.delete('/id',  deleteRecipe);
 
 router.post('/cocktail', multer, createCocktail);
 router.get('/cocktail',  getAllCocktails);
