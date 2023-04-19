@@ -18,13 +18,13 @@ const multer = require('../middlewares/multer-config');
 const router: Router = Router();
 const auth:RequestHandler = authenticate;
 
-router.post('/', multer, createRecipe);
+router.post('/', multer, auth, createRecipe);
 router.get('/',  getAllRecipe);
 router.get('/id',  getOneRecipe);
-router.delete('/id',  deleteRecipe);
+router.delete('/id', auth,  deleteRecipe);
 
-router.post('/cocktail', multer, createCocktail);
+router.post('/cocktail', multer, auth, createCocktail);
 router.get('/cocktail',  getAllCocktails);
 router.get('/cocktail/:id', getOneCocktail);
-router.delete('/cocktail/:id', deleteCocktail);
+router.delete('/cocktail/:id', auth, deleteCocktail);
 export default router;
