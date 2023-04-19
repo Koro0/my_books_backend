@@ -1,6 +1,8 @@
 import { Table, Column, Model, DataType, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
 import {Ingredient} from './Ingredient.model';
 import {Method} from './Method.model';
+import { Comments } from "../Comments.models";
+
 @Table({
     tableName: 'Cocktail'
 })
@@ -30,11 +32,14 @@ export class Cocktail extends Model {
     @Column({type:DataType.STRING})
     videoLink?:string;
 
+    @HasMany(()=> Comments)
+    comments!: Comments[];
+
     @HasMany(()=> Ingredient)
-    ingredients!:string[];
+    ingredients!:Ingredient[];
 
     @HasMany(()=> Method)
-    methods!:string[];
+    methods!:Method[];
 
     public async addIngredient(ingredient:Ingredient): Promise<void> {
         await this.$add('ingredients', ingredient);

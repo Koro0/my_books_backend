@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasMany} from "sequelize-typescript";
 import { Chapter } from "./Chapter.model";
 import { LikesTab} from "../LikesTabs.model";
+import { Comments } from "../Comments.models";
 
 @Table({
   tableName: 'Novel'
@@ -31,6 +32,9 @@ export class Novel extends Model {
 
   @Column({type: DataType.INTEGER})
   likesCount: number = 0;
+
+  @HasMany(()=> Comments)
+    comments!: Comments[];
   
   @HasMany(()=> LikesTab)
   likesTab!: LikesTab[];

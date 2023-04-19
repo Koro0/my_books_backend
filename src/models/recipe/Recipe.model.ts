@@ -3,6 +3,7 @@ import { LikesTab } from "../LikesTabs.model";
 import { User } from "../User.model";
 import { Method } from "./Method.model";
 import { Ingredient } from "./Ingredient.model";
+import { Comments } from "../Comments.models";
 
 @Table({
   tableName: 'Recipe'
@@ -37,12 +38,15 @@ export class Recipe extends Model {
 
     @ForeignKey(()=> User)
     @Column({type: DataType.INTEGER.UNSIGNED})
-    author?: number;
+    addBy?: number;
 
     @HasMany(()=> LikesTab)
-    likes!: LikesTab[];
+    likes!: LikesTab[]; 
 
-    @HasMany(()=> Method)
+    @HasMany(()=> Comments)
+    comments?: Comments[];
+
+    @HasMany(()=> Ingredient)
     ingredients!: Ingredient[];
 
     @HasMany(()=> Method)
