@@ -15,7 +15,7 @@ export  const createUser = async (req: Request, res: Response) => {
     }
     // Vérifier si l'utilisateur existe déjà
     const USER_EXIST = await User.findOne( email );
-    if (USER_EXIST) {
+    if (!USER_EXIST) {
       return res.status(400).json({ msg: 'L\'utilisateur existe déjà' });
     }
 
@@ -24,7 +24,7 @@ export  const createUser = async (req: Request, res: Response) => {
       pseudo,
       email,
       password,
-      admin:false
+      admin:0,
     });
 
     // Hash le mot de passe
@@ -34,21 +34,6 @@ export  const createUser = async (req: Request, res: Response) => {
     // Sauvegarder l'utilisateur dans la base de données
     await NEW_USER.save();
 
-    // Créer et signer le jeton JWT
-    const PAYLAOD = {
-      user: {
-        id: NEW_USER.id
-      }
-    };
-    jwt.sign(
-      PAYLAOD,
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }, 
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
   } catch (err) {
     console.error({err});
     res.status(500).send('Erreur de serveur');
@@ -57,11 +42,10 @@ export  const createUser = async (req: Request, res: Response) => {
 
 export const login = async (req:Request, res:Response) => {
   const {email, password}= req.body;
-  console.log(req.body);
   try {
     const user = await User.findOne({where:{email:email}})
     if(!user) {
-      res.send(400).json({message: "identifiant incorrect !"})
+      return res.status(400).json({message: "identifiant incorrect !"})
     };
     const PAYLAOD = {
       user: {
@@ -76,18 +60,17 @@ export const login = async (req:Request, res:Response) => {
               .status(401)
               .json({ message: 'Mot de passe incorrecte!' });
           }
+          // Créer et signer le jeton JWT
+          const token = jwt.sign(
+            PAYLAOD,
+            process.env.JWT_SECRET!,
+            { expiresIn: '24h' }, 
+          );
           res.status(200).json({
             userId: user!.id,
-            token: jwt.sign(
-              PAYLAOD,
-              process.env.JWT_SECRET!,
-              { expiresIn: '5h' }, 
-              (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-              }
-            ),
+            token:token,
           });
+         
         })
         .catch(() => res.status(500).json({ error: 'error bcrypt' }));
   }
