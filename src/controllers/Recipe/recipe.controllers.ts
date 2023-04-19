@@ -2,10 +2,16 @@ import { Recipe } from "../../models/recipe/Recipe.model";
 import { Request, Response } from "express";
 import { Ingredient } from "../../models/recipe/Ingredient.model";
 import { Method } from "../../models/recipe/Method.model";
+import { User } from "../../models/User.model";
 
 export const createRecipe = async (req:Request, res:Response) => {
+    const auth = req.auth;
     try {
-        const {title, description, author, portion, time, ingredientList, methodList} = req.body;
+        const isAdmin = await User.findOne({where: {userId:auth, adminStatus:0}})
+        if(!isAdmin) {
+            return res.status(400).json({msg:"Vous n'avez pas les accès"})
+        }
+        const {title, description, addBy, portion, time, ingredientList, methodList} = req.body;
         
             const recipe = await Recipe.create({
                 title, 
@@ -13,7 +19,7 @@ export const createRecipe = async (req:Request, res:Response) => {
                 image: (req.file ?`${req.protocol}://${req.get('host')}/images/${
                     req.file?.filename
                 }`: null),
-                author, 
+                addBy, 
                 portion, 
                 time,
                 likes:[]
