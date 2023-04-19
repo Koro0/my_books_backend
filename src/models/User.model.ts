@@ -31,6 +31,7 @@ export class User extends Model {
 
   @Column({
     type: DataType.NUMBER,
+    allowNull:false,
   })
   adminStatus:number = 0 | 1;
 
