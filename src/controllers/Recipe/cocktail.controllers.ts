@@ -83,7 +83,7 @@ export const getOneCocktail = async (req:Request, res:Response) => {
         if (!methods) {
             return res.status(404).json({message: "Method introuvable."});
           }
-        res.status(200).json({ message: "recette trouvé !", cocktail, ingredients, methods});
+        return res.status(200).json({ message: "recette trouvé !", cocktail, ingredients, methods});
     }
     catch (error) {
         res.status(400).json({message: "Cocktail désigné est introuvable."})
