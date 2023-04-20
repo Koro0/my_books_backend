@@ -24,6 +24,19 @@ export const createCommentRecipe =async (res:Response, req:Request) => {
     }
 }
 
+export const getAllRecipeComment =async (res:Response, req:Request) => {
+    const recipeId = req.params.recipeId;
+    try {
+        const comments = await Comments.findAll({where:{recipeId:recipeId}})
+        if(!comments) {
+            return res.status(400).json({msg:"Aucun commentaires retrouvées"})
+        }
+        return res.status(200).json({comments})
+    } catch (error) {
+        return res.status(400).json({msg: "Erreur de recuperation des commentaires des recettes", error})
+    }
+}
+
 export const createCommentNovel =async (res:Response, req:Request) => {
     const novelId = req.params.novelId;
     const authId = req.auth;
@@ -44,6 +57,19 @@ export const createCommentNovel =async (res:Response, req:Request) => {
     }
 }
 
+export const getAllNovelComment =async (res:Response, req:Request) => {
+    const novelId = req.params.novelId;
+    try {
+        const comments = await Comments.findAll({where:{novelId:novelId}})
+        if(!comments) {
+            return res.status(400).json({msg:"Aucun commentaires retrouvées"})
+        }
+        return res.status(200).json({comments})
+    } catch (error) {
+        return res.status(400).json({msg: "Erreur de recuperation des commentaires des recettes", error})
+    }
+}
+
 export const createCommentCocktail=async (res:Response, req:Request) => {
     const cocktailId = req.params.cocktailId;
     const authId = req.auth;
@@ -61,5 +87,18 @@ export const createCommentCocktail=async (res:Response, req:Request) => {
     }
     catch (err) {
         return res.status(400).json({msg:"Erreur creation de commentaire", err})
+    }
+}
+
+export const getAllCocktailComment =async (res:Response, req:Request) => {
+    const cocktailId = req.params.cocktailId;
+    try {
+        const comments = await Comments.findAll({where:{cocktailId:cocktailId}})
+        if(!comments) {
+            return res.status(400).json({msg:"Aucun commentaires retrouvées"})
+        }
+        return res.status(200).json({comments})
+    } catch (error) {
+        return res.status(400).json({msg: "Erreur de recuperation des commentaires des recettes", error})
     }
 }
