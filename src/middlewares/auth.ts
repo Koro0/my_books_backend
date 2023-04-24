@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Créer et ajouter un module auth a Request de express
-
+/*
 declare global {
   namespace Express {
     interface Request {
@@ -13,20 +13,21 @@ declare global {
   }
 }
 
-// Typer userId
-interface TokenPayload {
-  userId: number;
-}
+
 
 //typer le nouveau module req.auth
 interface AuthenticatedUserId extends Request {
   auth?: {
     userId:number;
   }
-}
+}*/
 
+// Typer userId
+interface TokenPayload {
+  userId: number;
+}
  const authenticate = (
-  req: AuthenticatedUserId,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -43,10 +44,10 @@ interface AuthenticatedUserId extends Request {
     // Valider le token JWT
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
     const userId = decodedToken.userId; // stocker l'ID de l'utilisateur dans la requête
+    console.log(userId, decodedToken);
     if(req.body.userId && req.body.userId !== userId){
       throw 'Invalid user ID';
     } else {
-      req.auth = { userId };
       return next();
     }
   } catch (err) {
