@@ -1,4 +1,5 @@
-import {Router}  from 'express';
+import {Router, RequestHandler}  from 'express';
+import authenticate from '../middlewares/auth';
 
 import {
     createCommentRecipe,
@@ -9,13 +10,16 @@ import {
     getAllCocktailComment,
 } from '../controllers/comments.controllers';
 const router: Router = Router();
+const auth:RequestHandler = authenticate;
 
 /**
  * Route for Comments
  */
-router.post('/comments/recipe', createCommentRecipe);
-router.get('/comments/recipe', getAllRecipeComment);
-router.post('/comments/novel', createCommentNovel);
-router.get('/comments/novel', getAllNovelComment);
-router.post('/comments/cocktail', createCommentCocktail);
-router.get('/comments/cocktail', getAllCocktailComment);
+router.post('/recipe', auth, createCommentRecipe);
+router.get('/recipe/:id', getAllRecipeComment);
+router.post('/novel', auth, createCommentNovel);
+router.get('/novel/:id', getAllNovelComment);
+router.post('/cocktail', auth, createCommentCocktail);
+router.get('/cocktail/:id', getAllCocktailComment);
+
+export default router;
