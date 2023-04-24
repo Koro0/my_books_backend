@@ -10,7 +10,7 @@ export class User extends Model {
     autoIncrement: true,
     primaryKey: true
   })
-  id!: number;
+  userId!: number;
 
   @Column({ type: DataType.STRING})
   pseudo?: string;
@@ -33,7 +33,7 @@ export class User extends Model {
     type: DataType.NUMBER,
     allowNull:false,
   })
-  adminStatus:number = 0 | 1;
+  adminStatus:number = 1 | 0;
 
   @HasMany(()=> Recipe)
   recipe?:string[];
