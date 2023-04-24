@@ -6,6 +6,8 @@ import connection from './connection/db.config';
 import novelRoute from './routes/novel.route';
 import recipeRoute from './routes/recipe.route';
 import userRoute from './routes/user.route';
+import commentRoute from './routes/comments.route';
+import cocktailRoute from './routes/cocktail.route';
 
 
 const cors = require('cors')
@@ -38,8 +40,11 @@ if (process.env.NODE_ENV === 'development') {
   
     app.use('/api/novel', novelRoute);
     app.use('/api/recipe', recipeRoute);
+    app.use('/api/cocktail', cocktailRoute);
     app.use('/images', express.static(path.join(__dirname, 'images')));
     app.use('/api/users', userRoute);
+    app.use('/api/comment', commentRoute);
+
   })
   .catch((err)=>{console.log('Error :', err)});
   
