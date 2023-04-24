@@ -2,15 +2,9 @@ import { Recipe } from "../../models/recipe/Recipe.model";
 import { Request, Response } from "express";
 import { Ingredient } from "../../models/recipe/Ingredient.model";
 import { Method } from "../../models/recipe/Method.model";
-import { User } from "../../models/User.model";
 
 export const createRecipe = async (req:Request, res:Response) => {
-    const auth = req.auth;
     try {
-        const isAdmin = await User.findOne({where: {userId:auth, adminStatus:0}})
-        if(!isAdmin) {
-            return res.status(400).json({msg:"Vous n'avez pas les accès"})
-        }
         const {title, description, addBy, portion, time, ingredientList, methodList} = req.body;
         
             const recipe = await Recipe.create({
@@ -50,7 +44,7 @@ export const getAllRecipe = async (req:Request, res:Response) => {
     return res.status(200).json({message:'get All recipes successfull', data: ALL_RECIPES});
 }
 
-export const getOneRecipe = async (res:Response, req:Request) => {
+export const getOneRecipe = async (req:Request, res:Response) => {
     const selectedRecipe = req.params.id;
     let searchParams = {
         where: {recipeId: selectedRecipe}
@@ -75,8 +69,8 @@ export const getOneRecipe = async (res:Response, req:Request) => {
     }
 }
 
-export const deleteRecipe = async (res:Response, req:Request) => {
-    const selectedRecipe = req.params.id;
+export const deleteRecipe = async (req:Request, res:Response) => {
+    const selectedRecipe:string = req.params.id;
     let searchParams = {
         where: {recipeId: selectedRecipe}
     };
