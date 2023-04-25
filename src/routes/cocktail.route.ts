@@ -13,8 +13,8 @@ import {
  const auth:RequestHandler = authenticate;
 
  
-router.post('/cocktail', multer, auth, createCocktail);
-router.get('/cocktail',  getAllCocktails);
-router.get('/cocktail/:id', getOneCocktail);
-router.delete('/cocktail/:id_:userId', auth, deleteCocktail);
+router.post('/', multer, auth, createCocktail);
+router.get('/',  getAllCocktails);
+router.get('/:id', getOneCocktail);
+router.delete('/:id/:userId', auth, deleteCocktail);
 export default router;
