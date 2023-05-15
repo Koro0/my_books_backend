@@ -19,15 +19,15 @@ const adminAuth:RequestHandler = authenticateAdmin;
 /**
  * Route for Comments
  */
-router.post('/recipe', auth, createCommentRecipe);
+router.post('/recipe/:id', auth, createCommentRecipe);
 router.get('/recipe/:id', getAllRecipeComment);
 router.delete('/recipe/:id', adminAuth, deleteCommentRecipe);
 
-router.post('/novel', auth, createCommentNovel);
+router.post('/novel/:id', auth, createCommentNovel);
 router.get('/novel/:id', getAllNovelComment);
 router.get('/novel/:id', adminAuth, deleteNovelComment);
 
-router.post('/cocktail', auth, createCommentCocktail);
+router.post('/cocktail/:id', auth, createCommentCocktail);
 router.get('/cocktail/:id', getAllCocktailComment);
 router.get('/cocktail/:id', adminAuth, deleteCocktailComment);
 
