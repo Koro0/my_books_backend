@@ -18,13 +18,16 @@ export const createRecipe = async (req:Request, res:Response) => {
                 time,
                 likes:[]
             });
+
+        // sauvegarde de la recette
+        await recipe.save();
         
         //ajout ingredients
         for (const ingredientData of ingredientList) {
             const ingredient = await Ingredient.create(ingredientData);
             await recipe.addIngredient(ingredient);
         }
-       //ajout ingredients
+       //ajout methodes
        for (const methodData of methodList) {
         const method = await Method.create(methodData);
         await recipe.addMethod(method);

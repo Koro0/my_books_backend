@@ -53,10 +53,10 @@ export class Recipe extends Model {
     methods!: Method[];
 
     public async addIngredient(ingredient:Ingredient): Promise<void> {
-        await this.$add('Ingredient', ingredient);
+        await this.$add('Ingredients', ingredient);
     }
 
     public async addMethod(method:Method): Promise<void> {
-        await this.$add('Method', method);
+        await this.$add('Methods', method);
     }
 }
