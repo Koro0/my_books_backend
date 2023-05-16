@@ -44,8 +44,8 @@ interface TokenPayload {
     // Valider le token JWT
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
     const userId = decodedToken.userId; // stocker l'ID de l'utilisateur dans la requête
-    console.log(userId, decodedToken);
-    if(req.body.userId && req.body.userId !== userId){
+    
+    if(req.body.userId && userId && req.body.userId !== userId){
       throw 'Invalid user ID';
     } else {
       return next();
