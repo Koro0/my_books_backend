@@ -53,7 +53,7 @@ export const createCocktail = async (req:Request,res:Response)=> {
  */
 export const getAllCocktails = async (req:Request, res:Response) => {
     try {
-        const cocktails = await Cocktail.findAll();
+        const cocktails: Cocktail[] = await Cocktail.findAll();
         res.status(200).json({ cocktails});
     }
     catch (error) {
@@ -98,9 +98,10 @@ export const getOneCocktail = async (req:Request, res:Response) => {
  */
 export const deleteCocktail = async (req:Request, res:Response) => {
     const ID = req.params.id;
-    const userId = req.auth;
+    const userId = req.params.userid;
+    console.log(userId, ID);
     try {
-        const user = await User.findByPk(ID);
+        const user = await User.findByPk(userId);
         if(!user) { // verifie si l'user existe
             return res.status(400).json({message: "Utilisateur" + userId + " introuvable !"})
         }
