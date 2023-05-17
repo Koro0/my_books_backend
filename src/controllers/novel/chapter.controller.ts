@@ -1,5 +1,6 @@
 import { Chapter } from '../../models/novel/Chapter.model';
 import { Request, Response } from 'express';
+import { Novel } from '../../models/novel/Novel.model';
 
 /**
  * 
@@ -11,12 +12,16 @@ export const createChapter = async (req:Request, res:Response) => {
     try{
         const NOVEL_ID: number  = parseInt(req.params.novelId, 10);
         const {chapterNumber, title, content} = req.body;
-        if(!chapterNumber || !title || !content) {
+        if(!chapterNumber || !title || !content) { //verification champ req
             return res.status(400).json({
                 message: 'toutes les champs doivent être completer'
             })
         }
-        const [chapter, created] = await Chapter.findOrCreate({
+        const novelExist : Novel | null = await Novel.findOne({where:{novelId:req.params.novelId}});
+        if(!novelExist) { //verif existance novel
+            return res.status(400).json({msg:"Novel not exist !"});
+        }
+        const [chapter, created] = await Chapter.findOrCreate({ //verif existance du meme chapitre sinon creer le chapitre
             where: {
                 chapterNumber:chapterNumber,
                 novelId:NOVEL_ID
