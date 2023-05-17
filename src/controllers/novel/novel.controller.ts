@@ -2,9 +2,6 @@ import {Novel} from '../../models/novel/Novel.model';
 import { Request, Response } from 'express';
 import fs = require('fs');
 
-import {
-    likeNovel,
-} from './like.controller';
 import { Chapter } from '../../models/novel/Chapter.model';
 /**
  * 
