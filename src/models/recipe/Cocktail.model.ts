@@ -33,7 +33,7 @@ export class Cocktail extends Model {
     videoLink?:string;
 
     @HasMany(()=> Comments)
-    comments!: Comments[];
+    comments?: Comments[];
 
     @HasMany(()=> Ingredient)
     ingredients!:Ingredient[];
