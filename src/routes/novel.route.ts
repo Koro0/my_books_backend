@@ -15,10 +15,6 @@ import {
     getOneChapter,
 } from '../controllers/novel/chapter.controller';
 
-import {
-    likeNovel,
-} from '../controllers/novel/like.controller';
-
 const multer = require('../middlewares/multer-config');
 const router: Router = Router();
 const auth:RequestHandler = authenticate;
@@ -39,9 +35,5 @@ router.post('/:novelId/chapter/', auth, createChapter);
 router.get('/:novelId/chapter/', getAllChapters);
 router.get('/:novelId/chapter/:chapterId', getOneChapter);
 
-/**
- * Routye for Like Tab for Liked or Disliked
- */
-router.post('/:novelId/like', likeNovel);
 
 export default router;
