@@ -46,7 +46,7 @@ export class Comments extends Model {
     recipe?: Recipe;
 
     @ForeignKey(()=> Recipe)
-    @Column({ type: DataType.INTEGER})
+    @Column({ type: DataType.INTEGER.UNSIGNED})
     recipeId?: number;
 
     @BelongsTo(()=> Cocktail)
