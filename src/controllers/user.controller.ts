@@ -24,7 +24,7 @@ export  const createUser = async (req: Request, res: Response) => {
       pseudo,
       email,
       password,
-      adminStatus:0,
+      adminStatus:1,
     });
 
     // Hash le mot de passe
@@ -49,7 +49,7 @@ export const login = async (req:Request, res:Response) => {
     };
     const PAYLAOD = {
       user: {
-        id: user!.id
+        userId: user!.userId
       }
     };
     bcrypt
@@ -67,7 +67,7 @@ export const login = async (req:Request, res:Response) => {
             { expiresIn: '24h' }, 
           );
           res.status(200).json({
-            userId: user!.id,
+            userId: user!.userId,
             token:token,
           });
          
