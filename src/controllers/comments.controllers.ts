@@ -8,10 +8,10 @@ import { Cocktail } from "../models/recipe/Cocktail.model";
  * create & get && delete recipe Comments
  */
 export const createCommentRecipe =async (req:Request, res:Response) => {
-    const ID = req.params.id;
+    const recipeId = req.params.id;
     try {
-        const { commentText , recipeId, userId } = req.body;
-        if (!commentText || !recipeId || !userId) {
+        const { commentText , userId } = req.body;
+        if (!commentText || !userId) {
             return res.status(400).json({msg: "Contenu obligatoire"})
         }
         const NEW_COMMENT = await Comments.create({
@@ -27,9 +27,9 @@ export const createCommentRecipe =async (req:Request, res:Response) => {
 }
 
 export const getAllRecipeComment =async (req:Request, res:Response) => {
-    const ID = req.params.id;
+    const recipeId = req.params.id;
     try {
-        const comments = await Comments.findAll({where:{recipeId:ID}})
+        const comments = await Comments.findAll({where:{recipeId:recipeId}})
         if(!comments) {
             return res.status(400).json({msg:"Aucun commentaires retrouvées"})
         }
@@ -57,10 +57,10 @@ export const deleteCommentRecipe =async (req:Request, res:Response) => {
  * create & get && delete Novel Comments
  */
 export const createCommentNovel =async (req:Request, res:Response) => {
-    const ID = req.params.id;
+    const novelId = req.params.id;
     try {
-        const { userId, commentText, novelId} = req.body;
-        if (!userId || !commentText || !novelId) {
+        const { userId, commentText} = req.body;
+        if (!userId || !commentText) {
             return res.status(400).json({msg: "Contenu obligatoire"})
         }
         const NEW_COMMENT = await Comments.create({
