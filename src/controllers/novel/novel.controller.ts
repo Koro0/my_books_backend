@@ -5,6 +5,7 @@ import fs = require('fs');
 import {
     likeNovel,
 } from './like.controller';
+import { Chapter } from '../../models/novel/Chapter.model';
 /**
  * 
  * @param req receve all req.body if there are a file, save file with a name
@@ -63,7 +64,7 @@ export const getOneNovel = async (req:Request, res:Response) => {
     const NOVEL_ID = req.params.novelId;
     const NOVEL: Novel | null = await Novel.findByPk(NOVEL_ID);
     return res
-            .status(200).json({message: "Novel fetched successfully", data: NOVEL});
+            .status(200).json({message: "Novel successfully founded", data: NOVEL});
 }
 
 /**
@@ -78,7 +79,7 @@ export const updateNovel = async (req:Request, res:Response) => {
     if(req.file == null){
         await Novel.update({...req.body},{where:{NOVEL_ID}});
     } else {
-        const SELECT_NOVEL : Novel | null = await Novel.findByPk(NOVEL_ID);
+        const SELECT_NOVEL : Novel | null = await Novel.findOne({where:{novelId:NOVEL_ID}});
         const FILENAME:any= SELECT_NOVEL?.image?.split('/')[4];
         fs.unlink( `src/images/${FILENAME}`, (err) => {
             if(err) {res.status(500).json({message: "Could not delete the file. " + err})}
@@ -87,9 +88,9 @@ export const updateNovel = async (req:Request, res:Response) => {
         await Novel.update({...req.body,
             image:`${req.protocol}://${req.get('host')}/images/${
                 req.file?.filename
-              }`}, {where:{NOVEL_ID}});
+              }`}, {where:{novelId:NOVEL_ID}});
     }
-    const UPDATED_NOVEL: Novel | null = await Novel.findByPk(NOVEL_ID);
+    const UPDATED_NOVEL: Novel | null = await Novel.findOne({where:{novelId:NOVEL_ID}});
     return res
             .status(200).json({message:"Novel update successfull", data :UPDATED_NOVEL});
 }
@@ -101,16 +102,25 @@ export const updateNovel = async (req:Request, res:Response) => {
   */
 export const deleteNovel = async (req:Request, res:Response) =>{
     const NOVEL_ID = req.params.novelId;
-    const DELETED_NOVEL : Novel | null = await Novel.findByPk(NOVEL_ID);
-    
-    if(DELETED_NOVEL?.image){
-        const FILENAME :string = DELETED_NOVEL.image.split('/')[4]; 
-        fs.unlink( `src/images/${FILENAME}`, (err) => {
-            if(err) {res.status(500).json({message: "Could not delete the file. " + err})}
-            else{console.log('deleted image')};
-        });
+    const DELETED_NOVEL : Novel | null = await Novel.findOne({where:{novelId:NOVEL_ID}});
+    const ChapterWithNovel : Chapter[] | null = await Chapter.findAll({where: {novelId:NOVEL_ID}});
+    try {
+        if(DELETED_NOVEL?.image){
+            const FILENAME :string = DELETED_NOVEL.image.split('/')[4]; 
+            fs.unlink( `src/images/${FILENAME}`, (err) => {
+                if(err) {res.status(500).json({message: "Could not delete the file. " + err})}
+                else{console.log('deleted image')};
+            });
+        }
+        if(ChapterWithNovel) {
+            await Chapter.destroy({where: {novelId:NOVEL_ID}});
+        }
+        await Novel.destroy({where: {novelId:NOVEL_ID}});
+        return res 
+                .status(200).json({message: "Novel deleted successfull", data: DELETED_NOVEL, chapter: ChapterWithNovel});
     }
-    await Novel.destroy({where: {NOVEL_ID}});
-    return res 
-            .status(200).json({message: "Novel deleted successfull", data: DELETED_NOVEL});
+    catch(err) {
+        return console.error(err);
+    }
+    
 }
