@@ -11,4 +11,4 @@ const auth:RequestHandler = authenticate;
 /**
  * Routye for Like Tab for Liked or Disliked
  */
-router.post('/:novelId/like', likeNovel);
+router.post('/:novelId/like', auth, likeNovel);
