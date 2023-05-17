@@ -38,6 +38,7 @@ if (process.env.NODE_ENV === 'development') {
   .then(()=> {
     console.log('Database successfully connected');
   
+    //Routes
     app.use('/api/novel', novelRoute);
     app.use('/api/recipe', recipeRoute);
     app.use('/api/cocktail', cocktailRoute);
