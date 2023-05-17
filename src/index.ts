@@ -8,6 +8,7 @@ import recipeRoute from './routes/recipe.route';
 import userRoute from './routes/user.route';
 import commentRoute from './routes/comments.route';
 import cocktailRoute from './routes/cocktail.route';
+import likesRoute from './routes/likes.route';
 
 
 const cors = require('cors')
@@ -45,7 +46,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use('/images', express.static(path.join(__dirname, 'images')));
     app.use('/api/users', userRoute);
     app.use('/api/comment', commentRoute);
-
+    app.use('/api/likes', likesRoute);
   })
   .catch((err)=>{console.log('Error :', err)});
   
