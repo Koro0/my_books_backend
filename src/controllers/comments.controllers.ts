@@ -126,11 +126,11 @@ export const createCommentCocktail=async (req:Request, res:Response) => {
 export const getAllCocktailComment =async ( req:Request, res:Response) => {
     const cocktailId = req.params.id;
     try {
-        const comments = await Comments.findAll({where:{cocktailId:cocktailId}})
-        if(!comments) {
+        const commentData = await Comments.findAll({where:{cocktailId:cocktailId}})
+        if(!commentData) {
             return res.status(400).json({msg:"Aucun commentaires retrouvées"})
         }
-        res.status(200).json({comments})
+        res.status(200).json({commentData})
     } catch (error) {
         res.status(400).json({msg: "Erreur de recuperation des commentaires des recettes", error})
     }
