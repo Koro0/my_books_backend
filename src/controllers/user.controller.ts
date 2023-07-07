@@ -24,7 +24,7 @@ export  const createUser = async (req: Request, res: Response) => {
       pseudo,
       email,
       password,
-      adminStatus:1,
+      adminStatus:0, //0=false or 1=true
     });
 
     // Hash le mot de passe
@@ -47,9 +47,10 @@ export const login = async (req:Request, res:Response) => {
     if(!user) {
       return res.status(400).json({message: "identifiant incorrect !"})
     };
-    const PAYLAOD = {
+    const PAYLOAD  = {
       user: {
-        userId: user!.userId
+        userId: user!.userId,
+        adminStatus: user!.adminStatus
       }
     };
     bcrypt
@@ -62,13 +63,14 @@ export const login = async (req:Request, res:Response) => {
           }
           // Créer et signer le jeton JWT
           const token = jwt.sign(
-            PAYLAOD,
+            PAYLOAD,
             process.env.JWT_SECRET!,
-            { expiresIn: '24h' }, 
+            { expiresIn: '3h' }, 
           );
-          res.status(200).json({
+          return res.status(200).json({
             userId: user!.userId,
             token:token,
+            adminStatus:user!.adminStatus 
           });
          
         })

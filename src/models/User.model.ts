@@ -30,10 +30,10 @@ export class User extends Model {
   password!:string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.TINYINT.UNSIGNED,
     allowNull:false,
   })
-  adminStatus:number = 1 | 0;
+  adminStatus!:number;
 
   @HasMany(()=> Recipe)
   recipe?:string[];
