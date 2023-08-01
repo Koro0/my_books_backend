@@ -26,7 +26,7 @@ import { Novel } from "./Novel.model";
     @Column({type:DataType.STRING, allowNull:false})
     title!: string;
 
-    @Column({type:DataType.STRING, allowNull:false})
+    @Column({type:DataType.TEXT, allowNull:false})
     content!: string;
 
     @ForeignKey(()=> Novel) 

@@ -27,14 +27,14 @@ export class Novel extends Model {
   @Column({type: DataType.STRING})
   author?: string;
 
-  @Column({type: DataType.STRING})
+  @Column({type: DataType.TEXT})
   description?: string; 
 
   @Column({type: DataType.INTEGER})
   likesCount: number = 0;
 
   @HasMany(()=> Comments)
-    comments!: Comments[];
+  comments!: Comments[];
   
   @HasMany(()=> LikesTab)
   likesTab!: LikesTab[];
