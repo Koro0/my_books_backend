@@ -10,7 +10,7 @@ import { Novel } from '../../models/novel/Novel.model';
  */
 export const createChapter = async (req:Request, res:Response) => {
     try{
-        const NOVEL_ID: number  = parseInt(req.params.novelId, 10);
+        const novelId: number  = parseInt(req.params.novelId, 10);
         const {chapterNumber, title, content} = req.body;
         if(!chapterNumber || !title || !content) { //verification champ req
             return res.status(400).json({
@@ -19,18 +19,18 @@ export const createChapter = async (req:Request, res:Response) => {
         }
         const novelExist : Novel | null = await Novel.findOne({where:{novelId:req.params.novelId}});
         if(!novelExist) { //verif existance novel
-            return res.status(400).json({msg:"Novel not exist !"});
+            return res.status(400).json({msg:"Novel is exist !"});
         }
         const [chapter, created] = await Chapter.findOrCreate({ //verif existance du meme chapitre sinon creer le chapitre
             where: {
                 chapterNumber:chapterNumber,
-                novelId:NOVEL_ID
+                novelId:novelId
             },
             defaults: {
                 chapterNumber:chapterNumber,
                 title:title,
                 content:content,
-                novelId:NOVEL_ID
+                novelId:novelId
             }
         });
         if(!created) {
@@ -39,7 +39,7 @@ export const createChapter = async (req:Request, res:Response) => {
             })
         }
         return res
-        .status(201).json({
+        .status(200).json({
             message: 'Chapter created successfully',
             chapter: chapter
         })
