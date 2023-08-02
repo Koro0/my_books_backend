@@ -5,8 +5,10 @@ import {
     DataType,
     BelongsTo,
     ForeignKey,
+    HasMany,
   } from "sequelize-typescript";
 import { Novel } from "./Novel.model";
+import { ParagraphList } from "./ParagraphList.model";
 
   @Table({
     tableName: 'Chapter'
@@ -26,8 +28,8 @@ import { Novel } from "./Novel.model";
     @Column({type:DataType.STRING, allowNull:false})
     title!: string;
 
-    @Column({type:DataType.TEXT, allowNull:false})
-    content!: string;
+    @HasMany(()=> ParagraphList)
+    paragraph!: ParagraphList[];
 
     @ForeignKey(()=> Novel) 
     @Column({type:DataType.INTEGER.UNSIGNED})
