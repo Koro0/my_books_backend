@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import fs = require('fs');
 
 import { Chapter } from '../../models/novel/Chapter.model';
+import { ParagraphList } from '../../models/novel/ParagraphList.model';
 /**
  * 
  * @param req receve all req.body if there are a file, save file with a name
@@ -101,6 +102,7 @@ export const deleteNovel = async (req:Request, res:Response) =>{
     const NOVEL_ID = req.params.novelId;
     const DELETED_NOVEL : Novel | null = await Novel.findOne({where:{novelId:NOVEL_ID}});
     const ChapterWithNovel : Chapter[] | null = await Chapter.findAll({where: {novelId:NOVEL_ID}});
+    const deleteParagraphs: ParagraphList[] | null = await ParagraphList.findAll({where: {novelId:NOVEL_ID}});
     try {
         if(DELETED_NOVEL?.image){
             const FILENAME :string = DELETED_NOVEL.image.split('/')[4]; 
@@ -108,6 +110,9 @@ export const deleteNovel = async (req:Request, res:Response) =>{
                 if(err) {res.status(500).json({message: "Could not delete the file. " + err})}
                 else{console.log('deleted image')};
             });
+        }
+        if(deleteParagraphs) {
+            await ParagraphList.destroy({where: {novelId:NOVEL_ID}});
         }
         if(ChapterWithNovel) {
             await Chapter.destroy({where: {novelId:NOVEL_ID}});
