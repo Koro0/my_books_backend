@@ -1,5 +1,5 @@
 import {Router, RequestHandler}  from 'express';
-import authenticate from '../middlewares/auth';
+import authenticate from '../middlewares/authAdmin';
 
 import {
     createNovel,
@@ -13,6 +13,7 @@ import {
     createChapter,
     getAllChapters,
     getOneChapter,
+    createParagraph,
 } from '../controllers/novel/chapter.controller';
 
 const multer = require('../middlewares/multer-config');
@@ -34,6 +35,11 @@ router.delete('/:novelId', auth, deleteNovel);
 router.post('/:novelId/chapter/', auth, createChapter);
 router.get('/:novelId/chapter/', getAllChapters);
 router.get('/:novelId/chapter/:chapterId', getOneChapter);
+
+/**
+ *CRUD for paragraphs under Chapter
+ */
+router.post('/:novelId/:chapter/', auth, createParagraph);
 
 
 export default router;
