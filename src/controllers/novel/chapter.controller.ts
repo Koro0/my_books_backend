@@ -1,6 +1,8 @@
 import { Chapter } from '../../models/novel/Chapter.model';
 import { Request, Response } from 'express';
 import { Novel } from '../../models/novel/Novel.model';
+import { ParagraphList } from '../../models/novel/ParagraphList.model';
+import { ADDRGETNETWORKPARAMS } from 'dns';
 
 /**
  * 
@@ -11,15 +13,15 @@ import { Novel } from '../../models/novel/Novel.model';
 export const createChapter = async (req:Request, res:Response) => {
     try{
         const novelId: number  = parseInt(req.params.novelId, 10);
-        const {chapterNumber, title, content} = req.body;
-        if(!chapterNumber || !title || !content) { //verification champ req
+        const {chapterNumber, title} = req.body;
+        if(!chapterNumber || !title) { //verification champ req
             return res.status(400).json({
                 message: 'toutes les champs doivent être completer'
             })
         }
         const novelExist : Novel | null = await Novel.findOne({where:{novelId:req.params.novelId}});
         if(!novelExist) { //verif existance novel
-            return res.status(400).json({msg:"Novel is exist !"});
+            return res.status(400).json({msg:"Novel not exist !"});
         }
         const [chapter, created] = await Chapter.findOrCreate({ //verif existance du meme chapitre sinon creer le chapitre
             where: {
@@ -29,7 +31,6 @@ export const createChapter = async (req:Request, res:Response) => {
             defaults: {
                 chapterNumber:chapterNumber,
                 title:title,
-                content:content,
                 novelId:novelId
             }
         });
@@ -46,6 +47,33 @@ export const createChapter = async (req:Request, res:Response) => {
     } 
     catch(error) {
         res.status(500).json({error});
+    }
+}
+
+interface paragraphAttribut {
+    paragraphId:number;
+    orders:number;
+    paragraph:string;
+    novelId:number;
+    chapterId:number;
+}
+export const createParagraph =async (req:Request, res:Response) => {
+    const {novelId, chapterId} = req.params;
+    const { paragraphs } = req.body;
+    if(!Array.isArray(paragraphs) || paragraphs.length===0) {
+        res.status(400).json({ error: "Le champ paragraph doit etre un tableau !"})
+    }
+    try {
+        const paragraphToCreate: paragraphAttribut[] = paragraphs.map((paragraph:any) => ({
+            ...paragraph,
+            novelId,
+            chapterId
+        }));
+
+        const createParagraph = await ParagraphList.bulkCreate(paragraphToCreate)
+        res.status(201).json({message:  "Paragraphees créer avec succès !" + createParagraph});
+    } catch (err) {
+        res.status(400).json({message: "Erreur de creation de paragraphes" + err});
     }
 }
 
