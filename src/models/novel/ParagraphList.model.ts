@@ -20,8 +20,14 @@ import { Chapter } from "./Chapter.model";
     })
     paragraphId!: number;
 
+    @Column({type:DataType.INTEGER, allowNull:true})
+    orders!:number;
+
     @Column({type:DataType.STRING, allowNull:true})
     paragraph!:string;
+
+    @Column({type:DataType.INTEGER.UNSIGNED, allowNull:true})
+    novelId!: number;
 
     @BelongsTo(()=> Chapter)
     chapter!:Chapter;
