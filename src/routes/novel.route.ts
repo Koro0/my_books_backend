@@ -14,6 +14,7 @@ import {
     getAllChapters,
     getOneChapter,
     createParagraph,
+    getAllParagraphs,
 } from '../controllers/novel/chapter.controller';
 
 const multer = require('../middlewares/multer-config');
@@ -39,7 +40,8 @@ router.get('/:novelId/chapter/:chapterId', getOneChapter);
 /**
  *CRUD for paragraphs under Chapter
  */
-router.post('/:novelId/:chapter/', auth, createParagraph);
+router.post('/:novelId/:chapterId/', auth, createParagraph);
+router.get('/:novelId/:chapterId/content', getAllParagraphs);
 
 
 export default router;
