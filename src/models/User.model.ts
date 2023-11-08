@@ -31,6 +31,7 @@ export class User extends Model {
 
   @Column({
     type: DataType.TINYINT.UNSIGNED,
+    defaultValue: 0,
     allowNull:false,
   })
   adminStatus!:number;
