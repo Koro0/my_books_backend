@@ -23,7 +23,7 @@ import { Chapter } from "./Chapter.model";
     @Column({type:DataType.INTEGER, allowNull:true})
     orders!:number;
 
-    @Column({type:DataType.STRING, allowNull:true})
+    @Column({type:DataType.TEXT, allowNull:true})
     paragraph!:string;
 
     @Column({type:DataType.INTEGER.UNSIGNED, allowNull:true})
@@ -33,6 +33,6 @@ import { Chapter } from "./Chapter.model";
     chapter!:Chapter;
 
     @ForeignKey(()=> Chapter)
-    @Column({type:DataType.INTEGER.UNSIGNED})
+    @Column({type:DataType.INTEGER.UNSIGNED, allowNull:true})
     chapterId!: number;
   }
