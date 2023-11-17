@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import * as path from 'path';
 dotenv.config();
 import connection from './connection/db.config';
 import novelRoute from './routes/novel.route';
@@ -8,18 +9,17 @@ import userRoute from './routes/user.route';
 import commentRoute from './routes/comments.route';
 import cocktailRoute from './routes/cocktail.route';
 import likesRoute from './routes/likes.route';
+import prodRoute from './routes/product.route';
 
-
-const cors = require('cors')
+//const cors = require('cors')
 const app: Express = express();
-const path = require('path');
 const imagesDir = path.join(__dirname, 'images');
 const port = process.env.APP_PORT || 5000;
 
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
-app.use((req:Request, res:Response, next:NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Headers',
@@ -32,34 +32,39 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   next();
 });
 
-
 if (process.env.NODE_ENV === 'development') {
   connection
-  .sync()
-  .then(()=> {
-    console.log('Database successfully connected');
-  
-    //Routes
-    app.use('/images', express.static(imagesDir));
-    app.use('/api/novel', novelRoute);
-    app.use('/api/recipe', recipeRoute);
-    app.use('/api/cocktail', cocktailRoute);
-    app.use('/api/users', userRoute);
-    app.use('/api/comment', commentRoute);
-    app.use('/api/likes', likesRoute);
-  })
-  .catch((err)=>{console.log('Error :', err)});
-  
+    .sync()
+    .then(() => {
+      console.log('Database successfully connected');
+
+      //Routes
+      app.use('/images', (req, res) => {
+        express.static(imagesDir);
+      });
+      app.use('/api/novel', novelRoute);
+      app.use('/api/recipe', recipeRoute);
+      app.use('/api/cocktail', cocktailRoute);
+      app.use('/api/users', userRoute);
+      app.use('/api/comment', commentRoute);
+      app.use('/api/likes', likesRoute);
+      app.use('/api/prod', prodRoute);
+    })
+    .catch((err) => {
+      console.log('Error :', err);
+    });
 } else {
   connection
-  .sync({force: true})
-  .then(()=> {
-    console.log('Database successfully connected');
-    app.use('*', (req: Request, res: Response) => {
-      res.redirect('https://github.com/Koro0/my_books_backend' + req.url);
+    .sync({ force: true })
+    .then(() => {
+      console.log('Database successfully connected');
+      app.use('*', (req: Request, res: Response) => {
+        res.redirect('https://github.com/Koro0/my_books_backend' + req.url);
+      });
+    })
+    .catch((err) => {
+      console.log('Error :', err);
     });
-  })
-  .catch((err)=>{console.log('Error :', err)});
 }
 
 app.listen(port, () => {
