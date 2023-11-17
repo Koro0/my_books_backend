@@ -2,7 +2,6 @@ import { Chapter } from '../../models/novel/Chapter.model';
 import { Request, Response } from 'express';
 import { Novel } from '../../models/novel/Novel.model';
 import { ParagraphList } from '../../models/novel/ParagraphList.model';
-import { ADDRGETNETWORKPARAMS } from 'dns';
 
 /**
  * 
@@ -50,33 +49,44 @@ export const createChapter = async (req:Request, res:Response) => {
     }
 }
 
-interface paragraphAttribut {
-    paragraphId:number;
-    orders:number;
-    paragraph:string;
-    novelId:number;
-    chapterId:number;
+import { Optional } from 'sequelize';
+
+interface ParagraphAttributes {
+  id:number;
+  paragraphId:number;
+  orders:number;
+  paragraph:string;
+  novelId:number;
+  chapterId:number;
 }
+interface ParagraphCreationAttributes extends Optional<ParagraphAttributes, 'id'> {}
+/**
+ * A tester
+ * @param req 
+ * @param res 
+ */
 export const createParagraph =async (req:Request, res:Response) => {
-    const {novelId, chapterId} = req.params;
+    const novel_Id = req.params.novelId;
+    const chapter_Id = req.params.chapterId;
     const { paragraphs } = req.body;
     if(!Array.isArray(paragraphs) || paragraphs.length===0) {
-        res.status(400).json({ error: "Le champ paragraph doit etre un tableau !"})
+       return res.status(400).json({ error: "Le champ paragraph doit etre un tableau !"});
     }
     try {
-        const paragraphToCreate: paragraphAttribut[] = paragraphs.map((paragraph:any) => ({
+        const paragraphsToInsert = paragraphs.map((paragraph:any) => ({
             ...paragraph,
-            novelId,
-            chapterId
-        }));
+            novel_Id,
+            chapter_Id
+          }));
+      
+          const createdParagraphs = await ParagraphList.bulkCreate(paragraphsToInsert);
 
-        const createParagraph = await ParagraphList.bulkCreate(paragraphToCreate)
-        res.status(201).json({message:  "Paragraphees créer avec succès !" + createParagraph});
+        res.status(201).json({message:  "Paragraphees créer avec succès !" + createdParagraphs});
     } catch (err) {
         res.status(400).json({message: "Erreur de creation de paragraphes" + err});
-    }
+    } 
 }
-
+ 
 /**
  * 
  * @param Chapter.findAll find all chapters with novel Id 
@@ -88,7 +98,8 @@ export const getAllChapters = async (req:Request, res:Response) => {
     await Chapter.findAll({
         where: {
             novelId : NOVEL_ID
-    }})
+        }
+    })
     .then((chapters) => {
         if(!chapters) {
             return res.status(404).json({message: 'Novel not found'})
@@ -100,6 +111,31 @@ export const getAllChapters = async (req:Request, res:Response) => {
     })
 }
 
+/**
+ * 
+ * @param req get prams 
+ * @param res return all paragraphs for the chapter
+ */
+export const getAllParagraphs = async (req:Request, res:Response) => {
+    const novel_Id = req.params.novelId;
+    const chapter_Id = req.params.chapterId;
+    await ParagraphList.findAll({
+        where: {
+            chapterId: chapter_Id,
+            novelId:novel_Id
+        }
+    })
+        .then((paragraph)=> {
+            if(!paragraph) {
+                return res.status(404).json({message: "Any content founded"})
+            }
+            return res.status(200).json({data:paragraph})
+        })
+        .catch((error:Error)=> {
+            res.status(404).json({error: error.message});
+        })
+
+}
 /**
  * 
  * @param NOVEL_ID get and parse novel Id 
