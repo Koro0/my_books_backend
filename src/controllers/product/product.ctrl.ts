@@ -19,3 +19,10 @@ export const createProduct = async (res: Response, req: Request) => {
   }
   return res.status(201).json({ message: 'Erreur: creation produit', product });
 };
+
+export const getAllProd = async (res: Response, req: Request) => {
+  const allProd: Product[] = await Product.findAll();
+  return res
+    .status(200)
+    .json({ message: 'get all products Successfull', allProd });
+};
