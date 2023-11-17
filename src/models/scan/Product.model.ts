@@ -20,12 +20,12 @@ export class Product extends Model {
   name?: string;
 
   @Column({ type: DataType.STRING })
-  fabriant?: string;
+  fabricant?: string;
 
   @Column({ type: DataTypes.JSON })
   valeur_nutrition?: string[];
 
-  public async nutritions(nutrition: Valeur_nutrition): Promise<void> {
+  public async addNutritions(nutrition: Valeur_nutrition): Promise<void> {
     await this.$add('Valeur_nutrition', nutrition);
   }
 }
