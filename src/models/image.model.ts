@@ -24,5 +24,5 @@ export class Image extends Model {
   @Column({
     type: DataType.BLOB,
   })
-  data?: any;
+  data!: Buffer;
 }
