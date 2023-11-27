@@ -4,37 +4,37 @@ import dotenv from 'dotenv';
 import { User } from '../models/User.model';
 dotenv.config();
 
-// Typer userId
-interface TokenPayload {
-    userId?: number;
+const authenticateAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // Récupérer le token JWT du header "Authorization"
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Missing Authorization header' });
   }
-   const authenticateAdmin = async(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    // Récupérer le token JWT du header "Authorization"
-    const authHeader = req.headers.authorization;
-  
-    if (!authHeader) {
-      return res.status(401).json({ error: 'Missing Authorization header' });
-    }
-  
-    const token = authHeader.split(' ')[1];
-  
-    try {
-      // Valider le token JWT
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
-      const userId = decodedToken.userId; // stocker l'ID de l'utilisateur dans la requête
-      const isAdmin = await User.findOne({where:{userId:userId, adminStatus:1}}); //1=true, 0=false
-      console.log(isAdmin);
-      if(req.body.userId && userId && req.body.userId !== userId && !isAdmin) {
-        throw 'Invalid user ID or not an admin';
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    // Valider le token JWT
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as any; // return un tableau {user:{userI,adminStatus}}
+    console.log(decodedToken);
+    if (decodedToken.user && decodedToken.user.userId) {
+      const { userId, adminStatus } = decodedToken.user;
+
+      if (adminStatus !== 1 && req.body.userId !== userId) {
+        throw new Error('Invalid user ID or not an admin');
       } else {
         return next();
       }
-    } catch (err) {
-      return res.status(401).json({ error: 'Invalid token' });
     }
+  } catch (err: any) {
+    return res
+      .status(401)
+      .json({ error: err.message || 'Invalid token or unauthorized' });
   }
-  export default authenticateAdmin;
+};
+export default authenticateAdmin;
