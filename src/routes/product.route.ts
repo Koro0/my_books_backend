@@ -8,5 +8,6 @@ const router: Router = Router();
 const auth: RequestHandler = authenticate;
 
 router.post('/', multer, auth, createProduct);
+router.get('/', multer, getAllProd);
 
 export default router;
