@@ -12,4 +12,4 @@ tmp/
 temp/
 
 .env
-/src/images
+/src/assets
