@@ -6,9 +6,9 @@ dotenv.config();
 
 // Typer userId
 interface TokenPayload {
-    userId: number;
+    userId?: number;
   }
-   const authenticateAdmin = (
+   const authenticateAdmin = async(
     req: Request,
     res: Response,
     next: NextFunction
@@ -26,9 +26,10 @@ interface TokenPayload {
       // Valider le token JWT
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
       const userId = decodedToken.userId; // stocker l'ID de l'utilisateur dans la requête
-      const isAdmin = User.findOne({where:{userId:userId, adminStatus:0}});
+      const isAdmin = await User.findOne({where:{userId:userId, adminStatus:1}}); //1=true, 0=false
+      console.log(isAdmin);
       if(req.body.userId && userId && req.body.userId !== userId && !isAdmin) {
-        throw 'Invalid user ID';
+        throw 'Invalid user ID or not an admin';
       } else {
         return next();
       }
