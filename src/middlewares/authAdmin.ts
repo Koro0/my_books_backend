@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
-import { User } from '../models/User.model';
 dotenv.config();
 
 const authenticateAdmin = async (

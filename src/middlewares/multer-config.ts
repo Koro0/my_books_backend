@@ -25,5 +25,5 @@ const storage = multer.diskStorage({
 module.exports = multer({
   storage: storage,
   fileFilter: imageFiltre,
-}).single('uplaods'); //un fichier image
+}).single('images'); //un fichier image
 //array('image) => pour plusieurs images

@@ -1,22 +1,21 @@
 import { Request, Response } from 'express';
-import bcrypt =  require('bcrypt');
+import bcrypt = require('bcrypt');
 import jwt = require('jsonwebtoken');
 import { User } from '../models/User.model';
 require('dotenv').config();
 
-export  const createUser = async (req: Request, res: Response) => {
-
+export const createUser = async (req: Request, res: Response) => {
   try {
     const { pseudo, email, password } = req.body;
-    if (!pseudo || !email || !password ) {
+    if (!pseudo || !email || !password) {
       return res.status(400).json({
-        message: 'toutes les champs doivent être rempli'
-      })
+        message: 'toutes les champs doivent être rempli',
+      });
     }
     // Vérifier si l'utilisateur existe déjà
-    const USER_EXIST = await User.findOne( { where: { email } } );
+    const USER_EXIST = await User.findOne({ where: { email } });
     if (USER_EXIST) {
-      return res.status(400).json({ message: 'L\'utilisateur existe déjà' });
+      return res.status(400).json({ message: "L'utilisateur existe déjà" });
     }
 
     // Créer un nouvel utilisateur
@@ -24,7 +23,7 @@ export  const createUser = async (req: Request, res: Response) => {
       pseudo,
       email,
       password,
-      adminStatus:0, //0=false or 1=true
+      adminStatus: false, //0=false or 1=true
     });
 
     // Hash le mot de passe
@@ -33,50 +32,44 @@ export  const createUser = async (req: Request, res: Response) => {
 
     // Sauvegarder l'utilisateur dans la base de données
     await NEW_USER.save();
-    return res.status(201).json({message: "Account is created"});
+    return res.status(201).json({ message: 'Account is created' });
   } catch (err) {
-    console.error({err});
+    console.error({ err });
     res.status(500).send('Erreur de serveur');
   }
 };
 
-export const login = async (req:Request, res:Response) => {
-  const {email, password}= req.body;
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({where:{email:email}})
-    if(!user) {
-      return res.status(400).json({message: "identifiant incorrect !"})
-    };
-    const PAYLOAD  = {
+    const user = await User.findOne({ where: { email: email } });
+    if (!user) {
+      return res.status(400).json({ message: 'identifiant incorrect !' });
+    }
+    const PAYLOAD = {
       user: {
         userId: user!.userId,
-        adminStatus: user!.adminStatus
-      }
+        adminStatus: user!.adminStatus,
+      },
     };
     bcrypt
-        .compare(password, user!.password)
-        .then((valid) => {
-          if (!valid) {
-            return res
-              .status(401)
-              .json({ message: 'Mot de passe incorrecte!' });
-          }
-          // Créer et signer le jeton JWT
-          const token = jwt.sign(
-            PAYLOAD,
-            process.env.JWT_SECRET!,
-            { expiresIn: '3h' }, 
-          );
-          return res.status(200).json({
-            userId: user!.userId,
-            token:token,
-            adminStatus:user!.adminStatus 
-          });
-         
-        })
-        .catch(() => res.status(500).json({ error: 'error bcrypt' }));
+      .compare(password, user!.password)
+      .then((valid) => {
+        if (!valid) {
+          return res.status(401).json({ message: 'Mot de passe incorrecte!' });
+        }
+        // Créer et signer le jeton JWT
+        const token = jwt.sign(PAYLOAD, process.env.JWT_SECRET!, {
+          expiresIn: '3h',
+        });
+        return res.status(200).json({
+          userId: user!.userId,
+          token: token,
+          adminStatus: user!.adminStatus,
+        });
+      })
+      .catch(() => res.status(500).json({ error: 'error bcrypt' }));
+  } catch (error) {
+    res.status(400).json({ message: 'error Connexion !' });
   }
-  catch (error) {
-    res.status(400).json({message:"error Connexion !"})
-  }
-}
+};
